@@ -31,13 +31,13 @@
         <div>
             <h4>Şirket</h4>
             <ul>
-                <li><a href="{{ route('home') }}">İninia</a></li>
-                <li><a href="{{ route('about') }}">Hakkımızda</a></li>
-                <li><a href="{{ route('blog.index') }}">Blog</a></li>
+                <li><a href="https://ininia.com" rel="noopener noreferrer">İninia</a></li>
+                <li><a href="https://ininia.com/hakkimizda" rel="noopener noreferrer">Hakkımızda</a></li>
+                <li><a href="https://ininia.com/blog" rel="noopener noreferrer">Blog</a></li>
             </ul>
         </div>
     </div>
     <div class="c-foot-bottom">
-        © {{ date('Y') }} Çekirdex · Bir <a href="{{ route('home') }}" style="color:var(--c-accent-d);font-weight:600">İninia</a> ürünüdür.
+        © {{ date('Y') }} Çekirdex · Bir <a href="https://ininia.com" rel="noopener noreferrer" style="color:var(--c-accent-d);font-weight:600">İninia</a> ürünüdür.
     </div>
 </footer>

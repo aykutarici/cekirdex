@@ -44,7 +44,7 @@
     <div class="c-info">
         <i class="fas fa-globe"></i>
         <strong>İninia ekosistemi</strong>
-        <span><a href="{{ route('home') }}">ininia.com</a> · İstanbul, Türkiye</span>
+        <span><a href="https://ininia.com" rel="noopener noreferrer">ininia.com</a> · İstanbul, Türkiye</span>
     </div>
 </div>
 
