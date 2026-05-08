@@ -1,0 +1,17 @@
+{
+    "name": "Çekirdex — QR menü ve sipariş",
+    "short_name": "Çekirdex",
+    "description": "QR menü, masadan sipariş, garson çağırma, hesap bölme ve sadakat — tek platformda.",
+    "start_url": "/cekirdex/",
+    "scope": "/cekirdex/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ff6b35",
+    "orientation": "portrait",
+    "lang": "tr",
+    "icons": [
+        { "src": "/cekirdex/favicon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" },
+        { "src": "/cekirdex/favicon.svg", "type": "image/svg+xml", "sizes": "192x192", "purpose": "maskable" },
+        { "src": "/cekirdex/favicon.svg", "type": "image/svg+xml", "sizes": "512x512", "purpose": "maskable" }
+    ]
+}
