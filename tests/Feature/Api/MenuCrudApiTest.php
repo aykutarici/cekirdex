@@ -84,10 +84,11 @@ class MenuCrudApiTest extends TestCase
         return CekirdexProduct::create(array_merge([
             'cekirdex_restaurant_id' => $this->restaurant->id,
             'cekirdex_category_id'   => $category->id,
-            'name'      => 'Test Ürün',
-            'slug'      => 'test-urun-' . uniqid(),
-            'price'     => 50.00,
-            'is_active' => true,
+            'name'        => 'Test Ürün',
+            'slug'        => 'test-urun-' . uniqid(),
+            'price'       => 50.00,
+            'is_active'   => true,
+            'is_in_stock' => true,
         ], $overrides));
     }
 
@@ -215,13 +216,11 @@ class MenuCrudApiTest extends TestCase
         $category = $this->createCategory();
         $product  = $this->createProduct($category);
 
-        $initialStock = $product->is_in_stock;
-
         $response = $this->withToken($this->ownerToken)
             ->postJson("/api/v1/panel/menu/products/{$product->id}/toggle-stock");
 
         $response->assertStatus(200)
-            ->assertJsonPath('is_in_stock', !$initialStock);
+            ->assertJsonPath('is_in_stock', false);
     }
 
     // ──────────────────────────────────────────────────────────────

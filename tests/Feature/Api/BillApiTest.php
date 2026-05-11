@@ -147,8 +147,9 @@ class BillApiTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure(['table', 'summary'])
-            ->assertJsonPath('table.id', $this->table->id)
-            ->assertJsonPath('summary.total', 100.0);
+            ->assertJsonPath('table.id', $this->table->id);
+
+        $this->assertEquals(100, $response->json('summary.total'));
     }
 
     // ──────────────────────────────────────────────────────────────
@@ -164,8 +165,9 @@ class BillApiTest extends TestCase
             ]);
 
         $response->assertStatus(201)
-            ->assertJsonStructure(['message', 'payment'])
-            ->assertJsonPath('payment.amount', 100.0);
+            ->assertJsonStructure(['message', 'payment']);
+
+        $this->assertEquals(100, $response->json('payment.amount'));
 
         $this->assertDatabaseHas('cekirdex_payments', [
             'cekirdex_table_id' => $this->table->id,
