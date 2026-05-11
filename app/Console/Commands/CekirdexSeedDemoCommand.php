@@ -8,6 +8,8 @@ use App\Cekirdex\Models\CekirdexProductVariant;
 use App\Cekirdex\Models\CekirdexRestaurant;
 use App\Cekirdex\Models\CekirdexTable;
 use App\Cekirdex\Models\CekirdexUser;
+use App\Cekirdex\Models\ModelRole;
+use App\Cekirdex\Models\Role;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
@@ -61,6 +63,17 @@ class CekirdexSeedDemoCommand extends Command
                 'is_active' => true,
             ]
         );
+
+        // Kullanıcıya uygun Role varsa ModelRole ata (permission sistemi için)
+        $ownerRole = Role::query()->where('key', 'restaurant.owner')->first();
+        if ($ownerRole) {
+            ModelRole::query()->firstOrCreate([
+                'model_type'             => CekirdexUser::class,
+                'model_id'               => $owner->id,
+                'role_id'                => $ownerRole->id,
+                'cekirdex_restaurant_id' => $rest->id,
+            ]);
+        }
 
         $catSpecs = [
             ['Sıcak İçecekler', 1],
