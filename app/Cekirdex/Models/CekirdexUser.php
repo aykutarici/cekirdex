@@ -2,11 +2,13 @@
 
 namespace App\Cekirdex\Models;
 
+use App\Cekirdex\Models\Concerns\HasCekirdexPermissions;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class CekirdexUser extends Authenticatable
 {
+    use HasCekirdexPermissions;
     use Notifiable;
 
     protected $table = 'cekirdex_users';

@@ -90,7 +90,7 @@
 
 <div class="table-grid">
     @foreach($tables as $t)
-        @php $url = url('/cekirdex/m/'.$t->qr_token); @endphp
+        @php $url = url('/m/'.$t->qr_token); @endphp
         <div class="table-card @if(!$t->is_active) inactive @endif">
             <div class="name">{{ $t->name }}</div>
             <div class="meta">

@@ -1,0 +1,11 @@
+---
+description: Veritabanı güvenliği — yıkıcı komutlar ve migrate:fresh yasağı
+alwaysApply: true
+---
+
+# Veritabanı kuralları
+
+- **`php artisan migrate:fresh` kullanımı kesinlikle yasaktır**; üretim veya mevcut veri içeren ortamlarda asla önerilmez ve çalıştırılmaz.
+- **`migrate:fresh --seed`**, **`db:wipe`**, şema düşüren veya tüm tabloları silen benzeri Artisan komutları veri kaybına yol açar; kullanıcı açıkça istemedikçe çalıştırılmaz.
+- Veritabanı sunucusu veya mevcut şema üzerinde **doğrudan SQL ile DROP/TRUNCATE** önerilmez.
+- Gerekli olduğunda yalnızca **`migrate`** (veya kullanıcı tarafından net talep edilen **tek seferlik, geri alınabilir** migration) kullanılır; önce yedek ve ortam onayı varsayılır.

@@ -1,0 +1,86 @@
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-cekirdex}
+      MYSQL_USER: ${DB_USERNAME:-cekirdex}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-cekirdex}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+    ports:
+      - "${DB_FORWARD_PORT:-3307}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p${DB_ROOT_PASSWORD:-root}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "${REDIS_FORWARD_PORT:-6380}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    env_file:
+      - path: .env.docker
+        required: false
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  backend-nginx:
+    image: nginx:alpine
+    ports:
+      - "${BACKEND_PORT:-8080}:80"
+    volumes:
+      - .:/var/www/html:ro
+      - ./docker/backend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+
+  backend-worker:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    env_file:
+      - path: .env.docker
+        required: false
+    command: php artisan queue:work --sleep=1 --tries=3 --timeout=90
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: ../../docker/frontend/Dockerfile
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080}
+      API_INTERNAL_URL: ${API_INTERNAL_URL:-http://backend-nginx}
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      - backend-nginx
+
+volumes:
+  mysql_data:
+  redis_data:

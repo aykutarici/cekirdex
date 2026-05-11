@@ -2,7 +2,7 @@
 
 @section('title', 'Müşteriler için Çekirdex — QR ile sipariş, hesap paylaşma, puan kazanma')
 @section('description', 'Çekirdex ile masaya oturduğunuzda QR\'ı okutun, menüden seçin, hesabı paylaşın ve hızlıca ödeyin. Her ödemede puan kazanın, sonraki ziyaretinizde kullanın.')
-@section('canonical', url('/cekirdex/musteriler'))
+@section('canonical', url('/musteriler'))
 
 @push('styles')
 <style>

@@ -99,7 +99,7 @@ class StockImageController extends Controller
 
     /**
      * Bir stok görselin SVG render'ı.
-     * URL: /cekirdex/stock-image/{slug}.svg
+     * URL: /stock-image/{slug}.svg
      * Public; CDN ve tarayıcı cache'leyebilir.
      */
     public function image(string $slug)

@@ -2,7 +2,7 @@
 
 @section('title', 'Restoranlar için Çekirdex — QR sipariş, ödeme, sadakat tek panelde')
 @section('description', 'Çekirdex restoranınıza QR menü, masadan sipariş, garson çağrısı, mutfak ekranı, kampanya yönetimi ve sadakat sistemini getirir. Aylık ücretsiz, kurulum 5 dakika.')
-@section('canonical', url('/cekirdex/restoranlar'))
+@section('canonical', url('/restoranlar'))
 
 @push('styles')
 <style>

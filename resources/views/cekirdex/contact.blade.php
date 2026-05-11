@@ -2,7 +2,7 @@
 
 @section('title', 'İletişim — Çekirdex')
 @section('description', 'Çekirdex ile iletişime geçin. Demo talebi, restoranınız için kurulum desteği veya sorularınız için bize yazın.')
-@section('canonical', url('/cekirdex/iletisim'))
+@section('canonical', url('/iletisim'))
 
 @push('styles')
 <style>

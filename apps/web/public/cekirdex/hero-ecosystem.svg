@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 520" fill="none">
+  <defs>
+    <linearGradient id="he-cent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f26a3d"/>
+      <stop offset="100%" stop-color="#e85a2e"/>
+    </linearGradient>
+    <filter id="he-soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="24" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="520" height="520" fill="#fafaf7"/>
+
+  <!-- soft orbit rings -->
+  <ellipse cx="260" cy="260" rx="210" ry="210" stroke="#eae7df" stroke-width="1" fill="none" opacity="0.9"/>
+  <ellipse cx="260" cy="260" rx="165" ry="165" stroke="#eae7df" stroke-width="1" stroke-dasharray="4 10" fill="none" opacity="0.85"/>
+  <ellipse cx="260" cy="260" rx="118" ry="118" stroke="#e8ece9" stroke-width="1" fill="none" opacity="0.7"/>
+
+  <!-- radial connectors -->
+  <g stroke="#d6d3c9" stroke-width="1" opacity="0.65">
+    <line x1="260" y1="260" x2="260" y2="68"/>
+    <line x1="260" y1="260" x2="416" y2="140"/>
+    <line x1="260" y1="260" x2="416" y2="380"/>
+    <line x1="260" y1="260" x2="260" y2="452"/>
+    <line x1="260" y1="260" x2="104" y2="380"/>
+    <line x1="260" y1="260" x2="104" y2="140"/>
+  </g>
+
+  <!-- satellite nodes -->
+  <g>
+    <circle cx="260" cy="68" r="20" fill="#ffffff" stroke="#eae7df" stroke-width="1"/>
+    <path d="M254 64h12v8h-12z M257 62v4" stroke="#6b7280" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <circle cx="416" cy="140" r="20" fill="#ffffff" stroke="#eae7df" stroke-width="1"/>
+    <path d="M406 136h20v10a3 3 0 0 1-3 3h-14a3 3 0 0 1-3-3v-10z" stroke="#89a792" stroke-width="1.4" fill="none"/>
+    <circle cx="416" cy="380" r="20" fill="#ffffff" stroke="#eae7df" stroke-width="1"/>
+    <path d="M408 376l8 12 10-18" stroke="#f26a3d" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle cx="260" cy="452" r="20" fill="#ffffff" stroke="#eae7df" stroke-width="1"/>
+    <path d="M252 446h16v12h-16z" stroke="#6b7280" stroke-width="1.4" fill="none" rx="2"/>
+    <circle cx="104" cy="380" r="20" fill="#ffffff" stroke="#eae7df" stroke-width="1"/>
+    <path d="M104 372v16 M96 380h16" stroke="#d6a061" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="104" cy="140" r="20" fill="#ffffff" stroke="#eae7df" stroke-width="1"/>
+    <path d="M104 132l4 8 8-14 8 14 4-8" stroke="#89a792" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- center hub -->
+  <circle cx="260" cy="260" r="118" fill="#ffffff" stroke="#eae7df" stroke-width="1" filter="url(#he-soft)" opacity="0.95"/>
+  <rect x="188" y="188" width="144" height="144" rx="32" fill="url(#he-cent)"/>
+  <!-- QR / seed motif -->
+  <g fill="#ffffff">
+    <rect x="218" y="218" width="28" height="28" rx="4"/>
+    <rect x="274" y="218" width="28" height="28" rx="4"/>
+    <rect x="218" y="274" width="28" height="28" rx="4"/>
+    <rect x="250" y="250" width="20" height="20" rx="3"/>
+    <rect x="274" y="250" width="12" height="12" rx="2"/>
+    <rect x="250" y="274" width="12" height="12" rx="2"/>
+    <rect x="274" y="274" width="28" height="28" rx="4"/>
+    <rect x="238" y="238" width="8" height="8" rx="1"/>
+  </g>
+</svg>

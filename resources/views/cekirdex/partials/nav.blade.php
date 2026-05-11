@@ -1,32 +1,32 @@
 @php
     $isLanding = request()->routeIs('cekirdex.landing');
+    $home = route('cekirdex.landing');
     $isPricing = request()->routeIs('cekirdex.pricing');
-    $isContact = request()->routeIs('cekirdex.contact');
-    $isRest    = request()->routeIs('cekirdex.for-restaurants');
-    $isGuests  = request()->routeIs('cekirdex.for-guests');
+    $isRest = request()->routeIs('cekirdex.for-restaurants');
+    $isGuests = request()->routeIs('cekirdex.for-guests');
 @endphp
 <nav class="c-nav {{ $isLanding ? 'c-nav-landing' : '' }}" aria-label="Çekirdex sayfaları">
     <div class="c-nav-inner">
         <div class="c-nav-start">
-            <a class="c-brand" href="{{ route('cekirdex.landing') }}">
-                <span class="c-brand-mark" aria-hidden="true"></span>
-                Çekirdex
+            <a class="c-brand" href="{{ $home }}">
+                <img class="c-brand-img" src="{{ asset('cekirdex/brand-logo.png') }}" width="40" height="40" alt="" aria-hidden="true" decoding="async">
+                <span class="c-brand-text">Çekirdex</span>
             </a>
         </div>
         <div class="c-nav-main">
-            <a href="{{ route('cekirdex.for-restaurants') }}" class="@if($isRest) is-active @endif">Restoranlar</a>
-            <a href="{{ route('cekirdex.for-guests') }}"      class="@if($isGuests) is-active @endif">Müşteriler</a>
-            <a href="{{ route('cekirdex.pricing') }}"         class="@if($isPricing) is-active @endif">Fiyatlandırma</a>
-            <a href="{{ route('cekirdex.contact') }}"         class="@if($isContact) is-active @endif">İletişim</a>
+            <a href="{{ $home }}#modules">Ürün</a>
+            <a href="{{ route('cekirdex.for-restaurants') }}" class="@if($isRest || $isGuests) is-active @endif">Çözümler</a>
+            <a href="{{ route('cekirdex.pricing') }}" class="@if($isPricing) is-active @endif">Fiyatlandırma</a>
+            <a href="https://ininia.com/blog" rel="noopener noreferrer">Kaynaklar</a>
+            <a href="https://ininia.com/hakkimizda" rel="noopener noreferrer">Hakkımızda</a>
         </div>
         <div class="c-nav-actions">
             @auth('cekirdex')
-                <a class="c-nav-secondary" href="{{ route('cekirdex.panel.dashboard') }}">Panele Git</a>
+                <a class="c-nav-secondary" href="{{ route('cekirdex.panel.dashboard') }}">Panele git</a>
             @else
-                <a class="c-nav-secondary" href="{{ route('cekirdex.login') }}">Giriş</a>
-                <a class="c-nav-cta" href="{{ route('cekirdex.register') }}">
-                    <i class="fas fa-rocket c-nav-cta-icon" aria-hidden="true"></i>
-                    <span>Restoranını Kaydet</span>
+                <a class="c-nav-secondary" href="{{ route('cekirdex.login') }}">Giriş yap</a>
+                <a class="c-nav-cta" href="{{ route('cekirdex.contact') }}">
+                    <span>Demo talep et</span>
                 </a>
             @endauth
         </div>

@@ -29,7 +29,7 @@
             @endif
             @if($order->note)<tr><th>Not</th><td>{{ $order->note }}</td></tr>@endif
             @if($order->eta_minutes)<tr><th>ETA</th><td>{{ $order->eta_minutes }} dk</td></tr>@endif
-            <tr><th>Takip linki</th><td><a href="{{ url('/cekirdex/o/'.$order->public_code) }}" target="_blank">{{ url('/cekirdex/o/'.$order->public_code) }}</a></td></tr>
+            <tr><th>Takip linki</th><td><a href="{{ url('/o/'.$order->public_code) }}" target="_blank">{{ url('/o/'.$order->public_code) }}</a></td></tr>
         </table>
     </div>
 

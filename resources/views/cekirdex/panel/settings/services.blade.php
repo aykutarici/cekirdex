@@ -20,7 +20,7 @@
             <div>
                 <label>URL Slug</label>
                 <div style="display: flex; align-items: center; gap: 8px;">
-                    <span class="muted">{{ rtrim(url('/cekirdex/r/'), '/') }}/</span>
+                    <span class="muted">{{ rtrim(url('/r/'), '/') }}/</span>
                     <input type="text" name="slug" value="{{ old('slug', $restaurant->slug) }}"
                            pattern="[a-z0-9\-]+" placeholder="elma-kafe"
                            style="flex: 1;">
@@ -30,8 +30,8 @@
             <div>
                 <label>Mevcut URL</label>
                 @if($restaurant->slug)
-                    <a href="{{ url('/cekirdex/r/'.$restaurant->slug) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px; background: #fff8f1; border-radius: 8px; word-break: break-all;">
-                        <i class="fas fa-external-link"></i> {{ url('/cekirdex/r/'.$restaurant->slug) }}
+                    <a href="{{ url('/r/'.$restaurant->slug) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px; background: #fff8f1; border-radius: 8px; word-break: break-all;">
+                        <i class="fas fa-external-link"></i> {{ url('/r/'.$restaurant->slug) }}
                     </a>
                 @else
                     <em class="muted">Slug henüz atanmamış. Kaydet'e basınca otomatik oluşturulur.</em>

@@ -52,6 +52,16 @@ return [
             'driver' => 'session',
             'provider' => 'cekirdex_customer_users',
         ],
+
+        'api_staff' => [
+            'driver' => 'passport',
+            'provider' => 'cekirdex_users',
+        ],
+
+        'api_guest' => [
+            'driver' => 'passport',
+            'provider' => 'cekirdex_customer_users',
+        ],
     ],
 
     /*

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 440" fill="none">
+  <defs>
+    <linearGradient id="hv-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f1f5f9"/>
+      <stop offset="55%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fff7ed"/>
+    </linearGradient>
+    <linearGradient id="hv-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff8a4c"/>
+      <stop offset="100%" stop-color="#ff6b35"/>
+    </linearGradient>
+    <linearGradient id="hv-sage" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2dd4bf"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </linearGradient>
+    <filter id="hv-shadow" x="-20%" y="-15%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="440" height="440" rx="24" fill="url(#hv-bg)"/>
+
+  <!-- Ambient blobs -->
+  <ellipse cx="92" cy="98" rx="78" ry="64" fill="#ff6b35" opacity="0.08"/>
+  <ellipse cx="358" cy="118" rx="56" ry="48" fill="#0d9488" opacity="0.07"/>
+  <ellipse cx="320" cy="340" rx="90" ry="70" fill="#ff6b35" opacity="0.06"/>
+
+  <!-- Floating stat pills -->
+  <g filter="url(#hv-shadow)">
+    <rect x="48" y="72" width="118" height="40" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <rect x="60" y="84" width="16" height="16" rx="4" fill="url(#hv-sage)"/>
+    <rect x="84" y="88" width="68" height="6" rx="3" fill="#cbd5e1"/>
+    <rect x="84" y="98" width="44" height="5" rx="2.5" fill="#e2e8f0"/>
+  </g>
+  <g filter="url(#hv-shadow)">
+    <rect x="268" y="56" width="132" height="44" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+    <rect x="282" y="70" width="48" height="16" rx="6" fill="url(#hv-accent)"/>
+    <rect x="338" y="74" width="48" height="8" rx="4" fill="#cbd5e1"/>
+  </g>
+
+  <!-- Phone + QR -->
+  <g filter="url(#hv-shadow)" transform="translate(96, 112)">
+    <rect x="0" y="0" width="248" height="268" rx="28" fill="#0f172a"/>
+    <rect x="12" y="16" width="224" height="228" rx="18" fill="#f8fafc"/>
+    <!-- QR simplified -->
+    <rect x="44" y="48" width="160" height="160" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+    <rect x="60" y="64" width="36" height="36" rx="4" fill="#0f172a"/>
+    <rect x="68" y="72" width="20" height="20" rx="2" fill="#f8fafc"/>
+    <rect x="172" y="64" width="36" height="36" rx="4" fill="#0f172a"/>
+    <rect x="180" y="72" width="20" height="20" rx="2" fill="#f8fafc"/>
+    <rect x="60" y="176" width="36" height="36" rx="4" fill="#0f172a"/>
+    <rect x="68" y="184" width="20" height="20" rx="2" fill="#f8fafc"/>
+    <rect x="112" y="64" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="132" y="64" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="112" y="84" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="132" y="84" width="12" height="12" rx="2" fill="#ff6b35"/>
+    <rect x="152" y="84" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="112" y="104" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="152" y="104" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="172" y="104" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="112" y="124" width="12" height="12" rx="2" fill="#0d9488"/>
+    <rect x="132" y="124" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="152" y="124" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="172" y="124" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="112" y="144" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="132" y="144" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="152" y="144" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="172" y="144" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="112" y="164" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="132" y="164" width="12" height="12" rx="2" fill="#ff6b35"/>
+    <rect x="152" y="164" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="172" y="164" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="112" y="184" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="132" y="184" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="152" y="184" width="12" height="12" rx="2" fill="#0f172a"/>
+    <rect x="92" y="224" width="164" height="10" rx="5" fill="#e2e8f0"/>
+    <rect x="92" y="240" width="120" height="8" rx="4" fill="#f1f5f9"/>
+    <!-- Notch -->
+    <rect x="96" y="4" width="56" height="6" rx="3" fill="#1e293b"/>
+  </g>
+
+  <!-- Table hint -->
+  <g opacity="0.9">
+    <ellipse cx="220" cy="398" rx="140" ry="14" fill="#0f172a" opacity="0.06"/>
+    <path d="M96 372h248" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg>

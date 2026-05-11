@@ -140,7 +140,7 @@ async function quickRestoreStock(productId, btn) {
     btn.disabled = true; const orig = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> İşleniyor...';
     try {
-        const r = await fetch(`/cekirdex/panel/menu/product/${productId}/toggle-stock`, {
+        const r = await fetch(`/panel/menu/product/${productId}/toggle-stock`, {
             method: 'POST',
             headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
         });

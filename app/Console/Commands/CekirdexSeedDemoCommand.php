@@ -173,12 +173,12 @@ class CekirdexSeedDemoCommand extends Command
         }
 
         $this->info('✓ Demo restoran hazır: '.$rest->name);
-        $this->line('  Panel:        '.url('/cekirdex/giris'));
+        $this->line('  Panel:        '.url('/giris'));
         $this->line('  E-posta:      '.$owner->email);
         $this->line('  Şifre:        '.$this->option('password'));
         $firstQr = CekirdexTable::where('cekirdex_restaurant_id', $rest->id)->first();
         if ($firstQr) {
-            $this->line('  Müşteri QR:   '.url('/cekirdex/m/'.$firstQr->qr_token));
+            $this->line('  Müşteri QR:   '.url('/m/'.$firstQr->qr_token));
         }
         $this->line('  Public:        '.route('cekirdex.public.show', $rest->slug));
         $this->comment('  Görseller: config/cekirdex_stock.php → Unsplash (ticari kullanıma uygun lisans).');

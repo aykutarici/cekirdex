@@ -42,7 +42,7 @@ class CekirdexTable extends Model
 
     public function getMenuUrlAttribute(): string
     {
-        return url('/cekirdex/m/'.$this->qr_token);
+        return url('/m/'.$this->qr_token);
     }
 
     public function getPhotoUrlAttribute(): ?string

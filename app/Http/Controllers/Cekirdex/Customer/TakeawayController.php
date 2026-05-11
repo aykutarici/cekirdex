@@ -222,7 +222,7 @@ class TakeawayController extends Controller
             'public_code'  => $order->public_code,
             'order_number' => $order->order_number,
             'total'        => (float) $order->total,
-            'tracking_url' => url('/cekirdex/o/'.$order->public_code),
+            'tracking_url' => url('/o/'.$order->public_code),
         ]);
     }
 
@@ -260,7 +260,7 @@ class TakeawayController extends Controller
                 $body .= "  ".$it->quantity.' × '.$it->name.'  — '.number_format($it->subtotal,2,',','.')." ₺\n";
             }
             $body .= "\n  Toplam: ".number_format((float) $order->total,2,',','.')." ₺\n\n";
-            $body .= "Sipariş takip linkiniz: ".url('/cekirdex/o/'.$order->public_code)."\n";
+            $body .= "Sipariş takip linkiniz: ".url('/o/'.$order->public_code)."\n";
             $body .= "Sipariş numaranız: ".$order->order_number."\n\n";
             $body .= "Restoran size en kısa sürede dönüş yapacak.\n\n";
             $body .= $restaurant->name;

@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Çekirdex Routes
 |--------------------------------------------------------------------------
-| Bu dosya routes/web.php içinden /cekirdex prefix grubu altında yüklenir.
+| Bu dosya routes/web.php içinden kök URL grubunda yüklenir (path öneki yok).
 | Tüm route'lar 'cekirdex.' name prefix'iyle çalışır.
 */
 

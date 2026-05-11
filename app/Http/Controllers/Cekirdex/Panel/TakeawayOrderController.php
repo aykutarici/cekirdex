@@ -163,7 +163,7 @@ class TakeawayOrderController extends Controller
                 'cancelled' => "Maalesef siparişiniz iptal edildi.\n",
                 default     => "Sipariş durumu: ".$order->status_label."\n",
             };
-            $body .= "\nTakip: ".url('/cekirdex/o/'.$order->public_code)."\n\n".$r->name;
+            $body .= "\nTakip: ".url('/o/'.$order->public_code)."\n\n".$r->name;
 
             Mail::raw($body, function ($m) use ($order, $subject) {
                 $m->to($order->contact_email)->subject($subject);

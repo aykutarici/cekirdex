@@ -2,7 +2,7 @@
 
 @section('title', 'Gizlilik Politikası — Çekirdex')
 @section('description', 'Çekirdex restoran platformu kişisel verilerinizi nasıl işliyor — kapsamlı gizlilik politikası.')
-@section('canonical', url('/cekirdex/gizlilik'))
+@section('canonical', url('/gizlilik'))
 
 @section('content')
 <span class="c-eyebrow"><i class="fas fa-shield-halved"></i> Gizlilik</span>

@@ -696,7 +696,7 @@ async function placeOrder() {
     });
 
     try {
-        const res = await fetch('/cekirdex/m/' + QR_TOKEN + '/order', {
+        const res = await fetch('/m/' + QR_TOKEN + '/order', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
             body: JSON.stringify({
@@ -751,7 +751,7 @@ async function pollOrders(force) {
     const ids = getOrderIds();
     if (ids.length === 0) { hideTrack(); return; }
     try {
-        const res = await fetch('/cekirdex/m/' + QR_TOKEN + '/my-orders', {
+        const res = await fetch('/m/' + QR_TOKEN + '/my-orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
             body: JSON.stringify({ ids }),
@@ -904,7 +904,7 @@ function pdAdd(pid) {
 
 async function callWaiter(type, message) {
     try {
-        const res = await fetch('/cekirdex/m/' + QR_TOKEN + '/call', {
+        const res = await fetch('/m/' + QR_TOKEN + '/call', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
             body: JSON.stringify({ call_type: type, message: message || null }),
@@ -1004,7 +1004,7 @@ function closeBill() {
 
 async function fetchBill(reset) {
     try {
-        const res = await fetch('/cekirdex/m/' + QR_TOKEN + '/bill', { headers: { 'Accept': 'application/json' }});
+        const res = await fetch('/m/' + QR_TOKEN + '/bill', { headers: { 'Accept': 'application/json' }});
         const data = await res.json();
         if (!data.ok) throw new Error('failed');
         billState.bill = data.bill;
@@ -1234,7 +1234,7 @@ async function payBill() {
         }
     }
     try {
-        const res = await fetch('/cekirdex/m/' + QR_TOKEN + '/bill/pay', {
+        const res = await fetch('/m/' + QR_TOKEN + '/bill/pay', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
             body: JSON.stringify(payload),
@@ -1288,7 +1288,7 @@ async function submitLogin() {
     const pass  = document.getElementById('lo-pass').value;
     if (!phone || !pass) return showAuthError('Telefon ve şifre gerekli.');
     try {
-        const res = await fetch('/cekirdex/m/' + QR_TOKEN + '/auth/login', {
+        const res = await fetch('/m/' + QR_TOKEN + '/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
             body: JSON.stringify({ phone, password: pass }),
@@ -1309,7 +1309,7 @@ async function submitRegister() {
     if (!name || !phone || !pass) return showAuthError('İsim, telefon ve şifre gerekli.');
     if (pass.length < 6) return showAuthError('Şifre en az 6 karakter olmalı.');
     try {
-        const res = await fetch('/cekirdex/m/' + QR_TOKEN + '/auth/register', {
+        const res = await fetch('/m/' + QR_TOKEN + '/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
             body: JSON.stringify({ name, phone, email: email || null, password: pass }),
@@ -1332,7 +1332,7 @@ function openProfile() {
 function closeProfile() { document.getElementById('profile-modal').classList.remove('is-open'); }
 async function submitLogout() {
     try {
-        await fetch('/cekirdex/m/' + QR_TOKEN + '/auth/logout', {
+        await fetch('/m/' + QR_TOKEN + '/auth/logout', {
             method: 'POST',
             headers: { 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
         });
@@ -1349,8 +1349,8 @@ async function submitLogout() {
 async function pdLoadEngagement(pid) {
     try {
         const [sumRes, revRes] = await Promise.all([
-            fetch('/cekirdex/m/' + QR_TOKEN + '/products/' + pid + '/summary', { headers: { 'Accept': 'application/json' } }),
-            fetch('/cekirdex/m/' + QR_TOKEN + '/products/' + pid + '/reviews', { headers: { 'Accept': 'application/json' } }),
+            fetch('/m/' + QR_TOKEN + '/products/' + pid + '/summary', { headers: { 'Accept': 'application/json' } }),
+            fetch('/m/' + QR_TOKEN + '/products/' + pid + '/reviews', { headers: { 'Accept': 'application/json' } }),
         ]);
         const sum = await sumRes.json();
         const rev = await revRes.json();
@@ -1430,7 +1430,7 @@ function renderEngagement(pid, sum, rev) {
 async function toggleLike(pid) {
     if (!CURRENT_USER) { closePd(); return openAuth('login'); }
     try {
-        const res = await fetch('/cekirdex/m/' + QR_TOKEN + '/products/' + pid + '/like', {
+        const res = await fetch('/m/' + QR_TOKEN + '/products/' + pid + '/like', {
             method: 'POST',
             headers: { 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
         });
@@ -1443,7 +1443,7 @@ async function toggleLike(pid) {
 async function toggleFav(pid) {
     if (!CURRENT_USER) { closePd(); return openAuth('login'); }
     try {
-        const res = await fetch('/cekirdex/m/' + QR_TOKEN + '/products/' + pid + '/favorite', {
+        const res = await fetch('/m/' + QR_TOKEN + '/products/' + pid + '/favorite', {
             method: 'POST',
             headers: { 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
         });
@@ -1464,7 +1464,7 @@ async function submitReview(pid) {
     if (content.length < 3) return showToast('Yorum en az 3 karakter olmalı.', false);
     if (rating < 1 || rating > 5) return showToast('Lütfen 1–5 yıldız seç.', false);
     try {
-        const res = await fetch('/cekirdex/m/' + QR_TOKEN + '/products/' + pid + '/reviews', {
+        const res = await fetch('/m/' + QR_TOKEN + '/products/' + pid + '/reviews', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
             body: JSON.stringify({ content, rating }),
@@ -1498,7 +1498,7 @@ function renderStars(n) {
 async function deleteReview(reviewId, pid) {
     if (!confirm('Bu yorumu silmek istediğine emin misin?')) return;
     try {
-        const res = await fetch('/cekirdex/m/' + QR_TOKEN + '/reviews/' + reviewId, {
+        const res = await fetch('/m/' + QR_TOKEN + '/reviews/' + reviewId, {
             method: 'DELETE',
             headers: { 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
         });

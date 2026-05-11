@@ -714,7 +714,7 @@ async function toggleStock(productId, btn) {
     const csrf = document.querySelector('meta[name=csrf-token]').content;
     btn.disabled = true; const orig = btn.innerHTML; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
     try {
-        const r = await fetch(`/cekirdex/panel/menu/product/${productId}/toggle-stock`, {
+        const r = await fetch(`/panel/menu/product/${productId}/toggle-stock`, {
             method: 'POST',
             headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
         });

@@ -244,8 +244,8 @@
 
 <script>
 const FEED_URL = @json(route('cekirdex.panel.kds.feed'));
-const ADV_URL  = (id) => '/cekirdex/panel/mutfak/'+id+'/ilerle';
-const SET_URL  = (id) => '/cekirdex/panel/mutfak/'+id+'/durum';
+const ADV_URL  = (id) => '/panel/mutfak/'+id+'/ilerle';
+const SET_URL  = (id) => '/panel/mutfak/'+id+'/durum';
 const CSRF = document.querySelector('meta[name="csrf-token"]').content;
 
 let knownIds = new Set();

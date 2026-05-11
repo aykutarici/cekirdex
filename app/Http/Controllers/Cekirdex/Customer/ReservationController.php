@@ -116,7 +116,7 @@ class ReservationController extends Controller
             'ok'           => true,
             'message'      => 'Rezervasyon talebiniz alındı. Restoran onayladıktan sonra bilgilendirileceksiniz.',
             'public_code'  => $reservation->public_code,
-            'tracking_url' => url('/cekirdex/rsv/'.$reservation->public_code),
+            'tracking_url' => url('/rsv/'.$reservation->public_code),
         ]);
     }
 
@@ -153,7 +153,7 @@ class ReservationController extends Controller
     public function qrPng(Request $request, string $publicCode)
     {
         CekirdexReservation::where('public_code', $publicCode)->firstOrFail();
-        $trackUrl = url('/cekirdex/rsv/'.$publicCode);
+        $trackUrl = url('/rsv/'.$publicCode);
         $remote = 'https://api.qrserver.com/v1/create-qr-code/?'.http_build_query([
             'size'   => '512x512',
             'margin' => 2,
@@ -301,7 +301,7 @@ class ReservationController extends Controller
                 $subject .= ' güncellemesi';
                 $body = "Rezervasyonunuz: ".$r->status_label."\n\n";
             }
-            $body .= "Takip linki: ".url('/cekirdex/rsv/'.$r->public_code)."\n\n";
+            $body .= "Takip linki: ".url('/rsv/'.$r->public_code)."\n\n";
             $body .= $restaurant->name;
 
             Mail::raw($body, function ($m) use ($r, $subject) {

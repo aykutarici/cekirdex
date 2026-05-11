@@ -50,7 +50,7 @@ class CekirdexRestaurant extends Model
     /** Restoranın halka açık landing URL'i (sadece slug atanmışsa). */
     public function getPublicUrlAttribute(): ?string
     {
-        return $this->slug ? url('/cekirdex/r/'.$this->slug) : null;
+        return $this->slug ? url('/r/'.$this->slug) : null;
     }
 
     public function getLogoUrlAttribute(): ?string
@@ -133,7 +133,7 @@ class CekirdexRestaurant extends Model
     /** Müşteriye gönderilecek rezervasyon derin bağlantısı (sayfa + modal). */
     public function getReservationBookingUrlAttribute(): ?string
     {
-        return $this->slug ? url('/cekirdex/r/'.$this->slug.'#rezervasyon') : null;
+        return $this->slug ? url('/r/'.$this->slug.'#rezervasyon') : null;
     }
 
     /**

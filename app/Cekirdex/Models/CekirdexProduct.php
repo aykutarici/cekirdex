@@ -75,7 +75,7 @@ class CekirdexProduct extends Model
         if (empty($this->image)) return null;
         if (str_starts_with($this->image, 'stock:')) {
             $slug = substr($this->image, 6);
-            return url('/cekirdex/stock-image/'.$slug.'.svg');
+            return url('/stock-image/'.$slug.'.svg');
         }
         return asset('storage/'.$this->image);
     }

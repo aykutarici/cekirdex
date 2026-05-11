@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff7ef"/>
+      <stop offset="100%" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff8a4c"/>
+      <stop offset="100%" stop-color="#ff6b35"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g transform="translate(80, 90)">
+    <rect width="92" height="92" rx="22" fill="url(#brand)"/>
+    <text x="46" y="62" text-anchor="middle" font-family="Inter, system-ui" font-weight="900" font-size="56" fill="#fff">Ç</text>
+  </g>
+  <text x="200" y="180" font-family="Inter, system-ui" font-weight="800" font-size="48" fill="#1c1933">Çekirdex</text>
+  <text x="80" y="320" font-family="Inter, system-ui" font-weight="900" font-size="78" fill="#1c1933">QR menü, sipari_ ve</text>
+  <text x="80" y="410" font-family="Inter, system-ui" font-weight="900" font-size="78" fill="url(#brand)">ödeme  tek platformda</text>
+  <text x="80" y="490" font-family="Inter, system-ui" font-weight="500" font-size="34" fill="#4a4566">Ayl1k ücret yok. Sadece dü_ük komisyon.</text>
+  <g transform="translate(80, 540)">
+    <rect width="32" height="32" rx="8" fill="#fff3eb" stroke="#ffd9c2"/>
+    <text x="16" y="22" text-anchor="middle" font-family="Inter, system-ui" font-weight="800" font-size="18" fill="#d9531c"></text>
+    <text x="46" y="23" font-family="Inter, system-ui" font-weight="600" font-size="22" fill="#1c1933">QR Menü</text>
+    <text x="190" y="23" font-family="Inter, system-ui" font-weight="600" font-size="22" fill="#1c1933">·  Sadakat</text>
+    <text x="320" y="23" font-family="Inter, system-ui" font-weight="600" font-size="22" fill="#1c1933">·  Hesap Bölme</text>
+    <text x="510" y="23" font-family="Inter, system-ui" font-weight="600" font-size="22" fill="#1c1933">·  Cüzdan</text>
+  </g>
+  <text x="1120" y="600" text-anchor="end" font-family="Inter, system-ui" font-weight="700" font-size="20" fill="#7d7995">cekirdex.com</text>
+</svg>

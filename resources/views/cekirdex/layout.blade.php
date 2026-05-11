@@ -9,7 +9,7 @@
     @else
         <meta name="description" content="Çekirdex; QR menü, masadan sipariş, garson çağırma, hesap paylaşma, ödeme ve sadakat sistemini tek çatıda toplayan restoran platformudur. Aylık ücret yok.">
     @endif
-    <meta name="theme-color" content="#ff6b35">
+    <meta name="theme-color" content="#f26a3d">
     <link rel="icon" type="image/svg+xml" href="{{ asset('cekirdex/favicon.svg') }}">
     <link rel="alternate icon" href="{{ asset('favicon.ico') }}">
     <link rel="manifest" href="{{ asset('cekirdex/manifest.webmanifest') }}">
@@ -42,7 +42,7 @@
             --c-text:      #1c1933;
             --c-text-soft: #4a4566;
             --c-muted:     #7d7995;
-            --c-accent:    #ff6b35;        /* sıcak turuncu — yemek/iştah açıcı */
+            --c-accent:    #f26a3d;
             --c-accent-d:  #d9531c;
             --c-accent2:   #ffb347;        /* amber */
             --c-deep:      #2a1f4d;        /* derin lacivert (vurgular için) */
@@ -125,23 +125,23 @@
             color: var(--c-text); display: inline-flex; align-items: center; gap: 10px;
         }
         .c-brand:hover { text-decoration: none; color: var(--c-accent-d); }
-        .c-brand-mark {
-            width: 34px; height: 34px; border-radius: 11px;
-            background: linear-gradient(135deg, #ff8a4c 0%, #ff6b35 100%);
-            display: inline-flex; align-items: center; justify-content: center;
-            color: #fff; font-size: .95rem;
-            box-shadow: 0 6px 14px -4px rgba(255,107,53,.5);
+        .c-brand-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            object-fit: cover;
+            flex-shrink: 0;
+            box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.35);
         }
-        .c-brand-mark::before { content: '\f805'; font-family: 'Font Awesome 6 Free'; font-weight: 900; }
         .c-nav-cta {
             display: inline-flex;
             align-items: center;
             gap: 6px;
             color: #fff !important;
-            background: linear-gradient(135deg, #ff8a4c, #ff6b35);
+            background: linear-gradient(135deg, #f28a5c, #f26a3d);
             padding: 10px 18px;
             border-radius: 12px;
-            box-shadow: 0 8px 22px -8px rgba(255,107,53,.55);
+            box-shadow: 0 8px 22px -8px rgba(242, 106, 61, 0.45);
             font-weight: 700;
             font-size: .88rem;
         }
@@ -160,9 +160,9 @@
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             padding: 14px 26px; border-radius: 14px;
             font-weight: 700; font-size: .98rem;
-            background: linear-gradient(135deg, #ff8a4c, #ff6b35);
+            background: linear-gradient(135deg, #f28a5c, #f26a3d);
             color: #fff !important; text-decoration: none !important;
-            box-shadow: 0 14px 32px -10px rgba(255,107,53,.55);
+            box-shadow: 0 14px 32px -10px rgba(242, 106, 61, 0.45);
             transition: all .25s; border: 0; cursor: pointer;
         }
         .btn-c:hover { filter: brightness(1.05); transform: translateY(-2px); text-decoration: none !important; }
@@ -192,7 +192,8 @@
             max-width: var(--c-max);
             margin: 0 auto;
             padding: 56px 22px 32px;
-            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+            display: grid;
+            grid-template-columns: 1.75fr repeat(4, minmax(0, 1fr));
             gap: 36px;
         }
         .c-foot h4 { font-size: .92rem; font-weight: 700; margin-bottom: 14px; color: var(--c-text); }
@@ -205,7 +206,36 @@
             padding: 18px 22px;
             text-align: center; font-size: .82rem; color: var(--c-muted);
         }
-        @media (max-width: 800px) { .c-foot-inner { grid-template-columns: 1fr 1fr; } }
+        .c-foot-social {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .c-foot-social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid var(--c-line-2);
+            background: #fff;
+            color: var(--c-text-soft);
+            transition: color .2s, border-color .2s, background .2s;
+        }
+        .c-foot-social-link:hover {
+            color: var(--c-accent-d);
+            border-color: rgba(255, 107, 53, 0.35);
+            background: #fffaf6;
+            text-decoration: none !important;
+        }
+        @media (max-width: 1024px) {
+            .c-foot-inner { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 520px) {
+            .c-foot-inner { grid-template-columns: 1fr; }
+        }
 
         @media (max-width: 860px) {
             .c-nav-inner {
@@ -251,7 +281,7 @@
     </style>
     @stack('styles')
 </head>
-<body>
+<body @class(['ck-landing-active' => request()->routeIs('cekirdex.landing')])>
     @include('cekirdex.partials.nav')
 
     @hasSection('outer')

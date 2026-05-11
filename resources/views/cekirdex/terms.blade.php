@@ -2,7 +2,7 @@
 
 @section('title', 'Kullanım Koşulları — Çekirdex')
 @section('description', 'Çekirdex restoran platformu kullanım koşulları, hizmet kapsamı ve sorumluluklar.')
-@section('canonical', url('/cekirdex/kullanim-kosullari'))
+@section('canonical', url('/kullanim-kosullari'))
 
 @section('content')
 <span class="c-eyebrow"><i class="fas fa-file-contract"></i> Kullanım koşulları</span>

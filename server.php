@@ -4,7 +4,7 @@
  * PHP built-in server router (php artisan serve).
  *
  * Varsayılan Laravel server.php, dizin yollarında file_exists true döndüğü için
- * GET /cekirdex rotası, public/cekirdex/ klasörüyle çakışıp Laravel'e hiç düşmüyordu.
+ * Yerleşik PHP sunucusu dizinleri dosya gibi ele alıyordu; yalnızca gerçek dosyalar doğrudan sunulur.
  * Yalnızca gerçek dosyalar doğrudan sunulur.
  */
 $publicPath = getcwd();

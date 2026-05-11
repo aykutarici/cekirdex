@@ -2,7 +2,7 @@
 
 @section('title', 'Çekirdex Fiyatlandırma — Aylık ücret yok, sadece komisyon')
 @section('description', 'Çekirdex restoran platformunun fiyatlandırması: aylık veya yıllık ücret yok. Sadece platform üzerinden geçen ödemelerde düşük oranlı işlem komisyonu.')
-@section('canonical', url('/cekirdex/fiyatlandirma'))
+@section('canonical', url('/fiyatlandirma'))
 
 @push('styles')
 <style>
