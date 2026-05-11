@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { apiFetch } from '@/lib/api';
 import { getAuthToken } from '@/lib/session';
+import { AddStaffForm, DeleteStaffButton } from './StaffActions';
 
 type Staff = {
   id: number;
@@ -34,8 +35,13 @@ export default async function StaffPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-semibold tracking-tight">Personel</h1>
-      <p className="mt-1 text-sm text-[var(--muted)]">{staff.length} çalışan</p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">Personel</h1>
+          <p className="mt-1 text-sm text-[var(--muted)]">{staff.length} çalışan</p>
+        </div>
+        <AddStaffForm />
+      </div>
 
       <div className="card mt-6 overflow-hidden p-0">
         {staff.length === 0 ? (
@@ -55,6 +61,7 @@ export default async function StaffPage() {
                     )}
                   </div>
                   <p className="text-xs text-[var(--muted)]">{s.email}</p>
+                  {s.phone && <p className="text-xs text-[var(--muted)]">{s.phone}</p>}
                 </div>
                 <div className="shrink-0 text-right">
                   <span className="rounded-full bg-[var(--bg-soft)] px-2.5 py-1 text-xs font-medium">
@@ -66,6 +73,7 @@ export default async function StaffPage() {
                     </p>
                   )}
                 </div>
+                <DeleteStaffButton staffId={s.id} />
               </div>
             ))}
           </div>

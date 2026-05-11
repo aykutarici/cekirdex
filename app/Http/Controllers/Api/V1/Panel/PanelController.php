@@ -11,6 +11,7 @@ use App\Cekirdex\Models\CekirdexUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PanelController extends Controller
 {
@@ -119,6 +120,68 @@ class PanelController extends Controller
         return response()->json([
             'restaurant' => $actor->restaurant,
         ]);
+    }
+
+    public function orderDetail(Request $request, int $id): JsonResponse
+    {
+        $order = CekirdexOrder::query()
+            ->with('table', 'items.product')
+            ->where('cekirdex_restaurant_id', $this->restaurantId($request))
+            ->findOrFail($id);
+
+        return response()->json([
+            'data' => array_merge($this->orderSummary($order), [
+                'order_type'   => $order->order_type,
+                'type_label'   => $order->type_label,
+                'note'         => $order->note,
+                'guest_name'   => $order->guest_name,
+                'guest_phone'  => $order->guest_phone,
+                'subtotal'     => (float) $order->subtotal,
+                'tax'          => (float) $order->tax,
+                'service_charge' => (float) $order->service_charge,
+                'discount'     => (float) $order->discount,
+                'items'        => $order->items->map(fn ($item) => [
+                    'id'            => $item->id,
+                    'name'          => $item->name,
+                    'quantity'      => $item->quantity,
+                    'price'         => (float) $item->price,
+                    'subtotal'      => (float) $item->subtotal,
+                    'variant_label' => $item->variant_label,
+                    'note'          => $item->note,
+                    'status'        => $item->status,
+                ])->values(),
+            ]),
+        ]);
+    }
+
+    public function updateOrderStatus(Request $request, int $id): JsonResponse
+    {
+        $data = $request->validate([
+            'status' => ['required', Rule::in(array_keys(CekirdexOrder::STATUSES))],
+        ]);
+
+        $order = CekirdexOrder::query()
+            ->where('cekirdex_restaurant_id', $this->restaurantId($request))
+            ->findOrFail($id);
+
+        $order->update(['status' => $data['status']]);
+
+        return response()->json(['message' => 'Sipariş durumu güncellendi.', 'status' => $order->status]);
+    }
+
+    public function confirmOrder(Request $request, int $id): JsonResponse
+    {
+        $order = CekirdexOrder::query()
+            ->where('cekirdex_restaurant_id', $this->restaurantId($request))
+            ->findOrFail($id);
+
+        if ($order->status !== 'new') {
+            return response()->json(['message' => 'Bu sipariş artık onaylanamaz.'], 422);
+        }
+
+        $order->update(['status' => 'confirmed']);
+
+        return response()->json(['message' => 'Sipariş onaylandı.', 'status' => $order->status]);
     }
 
     private function restaurantId(Request $request): int
