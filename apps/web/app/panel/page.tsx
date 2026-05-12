@@ -1,6 +1,11 @@
 import { redirect } from 'next/navigation';
 import { apiFetch } from '@/lib/api';
 import { getAuthToken } from '@/lib/session';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faReceipt, faUtensils, faChair, faCalendarDays,
+  faUsers, faGear,
+} from '@fortawesome/free-solid-svg-icons';
 
 type DashboardResponse = {
   metrics: {
@@ -68,16 +73,16 @@ export default async function PanelPage() {
 
       {/* Hızlı erişim */}
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {[
-          { href: '/panel/siparisler', label: 'Sipariş yönetimi', desc: 'Aktif siparişleri takip et', icon: '🧾' },
-          { href: '/panel/menu', label: 'Menü yönetimi', desc: 'Ürün ve kategori düzenle', icon: '🍽' },
-          { href: '/panel/masalar', label: 'Masa ve QR', desc: 'Masaları görüntüle, QR indir', icon: '🪑' },
-          { href: '/panel/rezervasyonlar', label: 'Rezervasyonlar', desc: 'Gelen rezervasyonları gör', icon: '📅' },
-          { href: '/panel/personel', label: 'Personel', desc: 'Çalışan listesi ve roller', icon: '👥' },
-          { href: '/panel/ayarlar', label: 'Restoran ayarları', desc: 'İletişim, vergi, hizmetler', icon: '⚙️' },
-        ].map(({ href, label, desc, icon }) => (
+        {([
+          { href: '/panel/siparisler', label: 'Sipariş yönetimi', desc: 'Aktif siparişleri takip et', icon: faReceipt },
+          { href: '/panel/menu', label: 'Menü yönetimi', desc: 'Ürün ve kategori düzenle', icon: faUtensils },
+          { href: '/panel/masalar', label: 'Masa ve QR', desc: 'Masaları görüntüle, QR indir', icon: faChair },
+          { href: '/panel/rezervasyonlar', label: 'Rezervasyonlar', desc: 'Gelen rezervasyonları gör', icon: faCalendarDays },
+          { href: '/panel/personel', label: 'Personel', desc: 'Çalışan listesi ve roller', icon: faUsers },
+          { href: '/panel/ayarlar', label: 'Restoran ayarları', desc: 'İletişim, vergi, hizmetler', icon: faGear },
+        ] as const).map(({ href, label, desc, icon }) => (
           <a key={href} href={href} className="card flex items-start gap-4 p-5 transition-shadow hover:shadow-md">
-            <span className="mt-0.5 text-2xl leading-none">{icon}</span>
+            <FontAwesomeIcon icon={icon} className="mt-1 h-5 w-5 shrink-0 text-[var(--muted)]" />
             <div>
               <p className="font-semibold">{label}</p>
               <p className="mt-0.5 text-sm text-[var(--muted)]">{desc}</p>

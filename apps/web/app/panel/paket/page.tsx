@@ -39,12 +39,12 @@ export default async function PaketPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-semibold tracking-tight">📦 Paket Siparişler</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">Paket Siparişler</h1>
       <p className="mt-1 text-sm text-[var(--muted)]">{orders.length} sipariş</p>
 
       {orders.length === 0 ? (
         <div className="mt-8 rounded-2xl border border-dashed border-[var(--border)] p-12 text-center text-[var(--muted)]">
-          <p className="text-4xl">📦</p>
+          <p className="text-4xl text-gray-300">○</p>
           <p className="mt-2 font-medium">Paket sipariş yok</p>
         </div>
       ) : (

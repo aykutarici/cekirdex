@@ -4,26 +4,44 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { logoutAction } from '@/app/giris/actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faGauge,
+  faFire,
+  faBell,
+  faCreditCard,
+  faReceipt,
+  faBoxOpen,
+  faCalendarDays,
+  faPhoneVolume,
+  faUtensils,
+  faChair,
+  faStar,
+  faUsers,
+  faGear,
+  faRightFromBracket,
+  type IconDefinition,
+} from '@fortawesome/free-solid-svg-icons';
 
-type NavItem = { href: string; label: string; icon: string };
+type NavItem = { href: string; label: string; icon: IconDefinition };
 
 const operasyonItems: NavItem[] = [
-  { href: '/panel',            label: 'Gösterge paneli', icon: '⬛' },
-  { href: '/panel/kds',        label: 'KDS (Mutfak)',    icon: '🔥' },
-  { href: '/panel/servis',     label: 'Servis ekranı',   icon: '🛎' },
-  { href: '/panel/hesaplar',   label: 'Hesaplar',        icon: '💳' },
-  { href: '/panel/siparisler', label: 'Siparişler',      icon: '🧾' },
-  { href: '/panel/paket',      label: 'Paket siparişler',icon: '📦' },
-  { href: '/panel/rezervasyonlar', label: 'Rezervasyonlar', icon: '📅' },
-  { href: '/panel/cagrilar',   label: 'Çağrılar',        icon: '🔔' },
+  { href: '/panel',                 label: 'Gösterge paneli',  icon: faGauge },
+  { href: '/panel/kds',             label: 'KDS (Mutfak)',     icon: faFire },
+  { href: '/panel/servis',          label: 'Servis ekranı',    icon: faBell },
+  { href: '/panel/hesaplar',        label: 'Hesaplar',         icon: faCreditCard },
+  { href: '/panel/siparisler',      label: 'Siparişler',       icon: faReceipt },
+  { href: '/panel/paket',           label: 'Paket siparişler', icon: faBoxOpen },
+  { href: '/panel/rezervasyonlar',  label: 'Rezervasyonlar',   icon: faCalendarDays },
+  { href: '/panel/cagrilar',        label: 'Çağrılar',         icon: faPhoneVolume },
 ];
 
 const yonetimItems: NavItem[] = [
-  { href: '/panel/menu',       label: 'Menü',            icon: '🍽' },
-  { href: '/panel/masalar',    label: 'Masalar & QR',    icon: '🪑' },
-  { href: '/panel/yorumlar',   label: 'Yorumlar',        icon: '⭐' },
-  { href: '/panel/personel',   label: 'Personel',        icon: '👥' },
-  { href: '/panel/ayarlar',    label: 'Ayarlar',         icon: '⚙️' },
+  { href: '/panel/menu',      label: 'Menü',        icon: faUtensils },
+  { href: '/panel/masalar',   label: 'Masalar & QR', icon: faChair },
+  { href: '/panel/yorumlar',  label: 'Yorumlar',    icon: faStar },
+  { href: '/panel/personel',  label: 'Personel',    icon: faUsers },
+  { href: '/panel/ayarlar',   label: 'Ayarlar',     icon: faGear },
 ];
 
 type BadgeCounts = { calls: number; orders: number };
@@ -39,13 +57,13 @@ function NavLink({
     <Link
       href={href}
       className={[
-        'relative flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+        'relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
         active
           ? 'bg-[var(--ink)] text-white'
           : 'text-[var(--muted)] hover:bg-[var(--border)] hover:text-[var(--ink)]',
       ].join(' ')}
     >
-      <span className="text-base leading-none">{icon}</span>
+      <FontAwesomeIcon icon={icon} className="w-4 shrink-0" />
       {label}
       {badge && badge > 0 ? (
         <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
@@ -109,7 +127,6 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className="hidden w-60 shrink-0 border-r border-[var(--border)] bg-[var(--bg-soft)] md:flex md:flex-col">
         <nav className="flex flex-col gap-0.5 overflow-y-auto p-3 pt-4">
-          {/* Operasyon */}
           <p className="mb-1 mt-1 px-3 text-[10px] font-bold uppercase tracking-widest text-[var(--muted)]">
             Operasyon
           </p>
@@ -128,7 +145,6 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
             />
           ))}
 
-          {/* Yönetim */}
           <p className="mb-1 mt-4 px-3 text-[10px] font-bold uppercase tracking-widest text-[var(--muted)]">
             Yönetim
           </p>
@@ -141,9 +157,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           <form action={logoutAction}>
             <button
               type="submit"
-              className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium text-[var(--muted)] transition-colors hover:bg-[var(--border)] hover:text-[var(--ink)]"
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-[var(--muted)] transition-colors hover:bg-[var(--border)] hover:text-[var(--ink)]"
             >
-              <span className="text-base leading-none">🚪</span>
+              <FontAwesomeIcon icon={faRightFromBracket} className="w-4 shrink-0" />
               Çıkış yap
             </button>
           </form>
@@ -159,11 +175,11 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               key={href}
               href={href}
               className={[
-                'flex flex-1 flex-col items-center gap-0.5 py-2 text-[10px] font-medium',
+                'flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium',
                 active ? 'text-[var(--ink)]' : 'text-[var(--muted)]',
               ].join(' ')}
             >
-              <span className="text-xl leading-none">{icon}</span>
+              <FontAwesomeIcon icon={icon} className="h-5 w-5" />
               {label.split(' ')[0]}
             </Link>
           );

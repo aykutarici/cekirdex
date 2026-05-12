@@ -40,7 +40,7 @@ function ReadyCard({ order, onUpdate }: { order: ServiceOrder; onUpdate: () => v
         <div>
           <p className="font-mono text-xl font-bold">{order.order_number}</p>
           <p className="mt-1 text-sm font-semibold text-green-700">
-            📍 {order.table ?? order.type}
+            {order.table ?? order.type}
           </p>
           <p className="text-xs text-gray-500">{timeAgo(order.created_at)}</p>
         </div>
@@ -87,7 +87,7 @@ function PendingCard({ order, onUpdate }: { order: ServiceOrder; onUpdate: () =>
         <div>
           <p className="font-mono text-xl font-bold">{order.order_number}</p>
           <p className="mt-1 text-sm font-semibold text-blue-700">
-            📍 {order.table ?? order.type}
+            {order.table ?? order.type}
           </p>
           <p className="text-xs text-gray-500">{timeAgo(order.created_at)}</p>
         </div>
@@ -150,7 +150,7 @@ export default function ServisPage() {
     <div className="p-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">🛎 Servis Ekranı</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Servis Ekranı</h1>
           <p className="mt-1 text-sm text-[var(--muted)]">Aktif siparişler</p>
         </div>
         <div className="flex items-center gap-2">
@@ -197,7 +197,7 @@ export default function ServisPage() {
 
       {totalCount === 0 && !loading && (
         <div className="mt-6 rounded-2xl border border-dashed border-[var(--border)] p-12 text-center text-[var(--muted)]">
-          <p className="text-4xl">✅</p>
+          <p className="text-4xl text-emerald-600">✓</p>
           <p className="mt-2 font-medium">Bekleyen sipariş yok</p>
         </div>
       )}

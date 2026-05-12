@@ -147,7 +147,7 @@ export default function KdsPage() {
   return (
     <div className="flex h-screen flex-col bg-gray-100">
       <header className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3">
-        <h1 className="text-xl font-bold">🔥 KDS — Mutfak Ekranı</h1>
+        <h1 className="text-xl font-bold">KDS — Mutfak Ekranı</h1>
         <div className="flex items-center gap-3">
           {loading && <span className="text-sm text-gray-400">Yükleniyor…</span>}
           {error && <span className="text-sm text-red-600">{error}</span>}

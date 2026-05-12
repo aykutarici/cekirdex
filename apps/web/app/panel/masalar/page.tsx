@@ -93,7 +93,7 @@ export default async function TablesPage() {
                       title="QR token'ı yenile"
                       className="btn text-xs"
                     >
-                      🔄
+                      ↺
                     </button>
                   </form>
                   <form action={deleteTable}>
@@ -107,7 +107,7 @@ export default async function TablesPage() {
                         }
                       }}
                     >
-                      🗑
+                      Sil
                     </button>
                   </form>
                 </div>

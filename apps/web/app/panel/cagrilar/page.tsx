@@ -56,7 +56,7 @@ function CallCard({ call, onUpdate }: { call: Call; onUpdate: () => void }) {
     <div className={`card p-4 ${isResponded ? 'opacity-70' : ''}`}>
       <div className="flex items-start justify-between gap-2">
         <div>
-          <p className="font-semibold">📍 {call.table}</p>
+          <p className="font-semibold">{call.table}</p>
           <p className="mt-0.5 text-xs text-[var(--muted)]">{timeAgo(call.created_at)}</p>
         </div>
         <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${badgeCls}`}>
@@ -120,7 +120,7 @@ export default function CagrilarPage() {
     <div className="p-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">🔔 Çağrılar</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Çağrılar</h1>
           <p className="mt-1 text-sm text-[var(--muted)]">Masa çağrıları ve talepleri</p>
         </div>
         <div className="flex items-center gap-2">
@@ -139,7 +139,7 @@ export default function CagrilarPage() {
 
       {calls.length === 0 && !loading ? (
         <div className="mt-8 rounded-2xl border border-dashed border-[var(--border)] p-12 text-center text-[var(--muted)]">
-          <p className="text-4xl">🔕</p>
+          <p className="text-4xl text-gray-300">○</p>
           <p className="mt-2 font-medium">Aktif çağrı yok</p>
         </div>
       ) : (

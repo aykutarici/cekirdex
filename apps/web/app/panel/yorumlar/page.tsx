@@ -37,12 +37,12 @@ export default async function YorumlarPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-semibold tracking-tight">⭐ Yorumlar</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">Yorumlar</h1>
       <p className="mt-1 text-sm text-[var(--muted)]">{reviews.length} yorum</p>
 
       {reviews.length === 0 ? (
         <div className="mt-8 rounded-2xl border border-dashed border-[var(--border)] p-12 text-center text-[var(--muted)]">
-          <p className="text-4xl">⭐</p>
+          <p className="text-4xl text-amber-400">★</p>
           <p className="mt-2 font-medium">Henüz yorum yok</p>
         </div>
       ) : (
