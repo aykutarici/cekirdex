@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
@@ -10,6 +11,7 @@ type Product = {
   name: string;
   description: string | null;
   price: number;
+  image_url: string | null;
   is_active: boolean;
   is_in_stock: boolean;
   is_popular: boolean;
@@ -92,7 +94,17 @@ export default async function MenuPage() {
                       const deleteProduct = deleteProductAction.bind(null, p.id);
 
                       return (
-                        <div key={p.id} className="flex items-center gap-4 px-5 py-3">
+                        <div key={p.id} className="flex items-center gap-3 px-5 py-3">
+                          {/* Thumbnail */}
+                          <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
+                            <Image
+                              src={p.image_url ?? '/cekirdex/placeholder-food.svg'}
+                              alt={p.name}
+                              fill
+                              className="object-cover"
+                              unoptimized={!p.image_url}
+                            />
+                          </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2 flex-wrap">
                               <p className="font-medium">{p.name}</p>

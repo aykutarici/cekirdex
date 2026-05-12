@@ -10,7 +10,16 @@ type MenuResponse = {
   categories: Array<{
     id: number;
     name: string;
-    products: Array<{ id: number; name: string; effective_price: number }>;
+    products: Array<{
+      id: number;
+      name: string;
+      description: string | null;
+      effective_price: number;
+      discount_price: number | null;
+      image_url: string | null;
+      is_popular: boolean;
+      is_new: boolean;
+    }>;
   }>;
 };
 
