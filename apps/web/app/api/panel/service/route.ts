@@ -11,9 +11,10 @@ export async function GET() {
       headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
       cache: 'no-store',
     });
-    const data = await res.json();
-    return NextResponse.json(data, { status: res.status });
+    const json = await res.json();
+    // Normalize: backend returns { orders: [...] }, frontend expects { data: [...] }
+    return NextResponse.json({ data: json.orders ?? json.data ?? [] }, { status: res.status });
   } catch {
-    return NextResponse.json({ ok: false }, { status: 500 });
+    return NextResponse.json({ data: [] }, { status: 500 });
   }
 }

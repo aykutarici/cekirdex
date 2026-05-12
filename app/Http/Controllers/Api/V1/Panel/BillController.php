@@ -55,8 +55,21 @@ class BillController extends Controller
         $summary = $this->billService->summary($table);
 
         return response()->json([
-            'table'   => ['id' => $table->id, 'name' => $table->name],
-            'summary' => $summary,
+            'data' => [
+                'table_id'    => $table->id,
+                'table_name'  => $table->name,
+                'subtotal'    => $summary['subtotal'],
+                'tax'         => $summary['tax'],
+                'service_charge' => $summary['service_charge'],
+                'total'       => $summary['total'],
+                'paid'        => $summary['paid'],
+                'remaining'   => $summary['remaining'],
+                'currency'    => $summary['currency'],
+                'orders'      => $summary['orders'],
+                'items'       => $summary['items'],
+                'payments'    => $summary['payments'],
+                'has_open_orders' => $summary['has_open_orders'],
+            ],
         ]);
     }
 
