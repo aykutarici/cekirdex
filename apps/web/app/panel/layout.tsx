@@ -9,6 +9,7 @@ import {
   faGauge,
   faFire,
   faBell,
+  faPersonWalkingArrowRight,
   faCreditCard,
   faReceipt,
   faBoxOpen,
@@ -28,6 +29,7 @@ type NavItem = { href: string; label: string; icon: IconDefinition };
 const operasyonItems: NavItem[] = [
   { href: '/panel',                 label: 'Gösterge paneli',  icon: faGauge },
   { href: '/panel/kds',             label: 'KDS (Mutfak)',     icon: faFire },
+  { href: '/panel/garson',          label: 'Garson Ekranı',    icon: faPersonWalkingArrowRight },
   { href: '/panel/servis',          label: 'Servis ekranı',    icon: faBell },
   { href: '/panel/hesaplar',        label: 'Hesaplar',         icon: faCreditCard },
   { href: '/panel/siparisler',      label: 'Siparişler',       icon: faReceipt },
