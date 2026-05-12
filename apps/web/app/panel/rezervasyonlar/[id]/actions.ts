@@ -10,30 +10,29 @@ function revalidate(id: number) {
   revalidatePath(`/panel/rezervasyonlar/${id}`);
 }
 
-export async function confirmReservationDetailAction(id: number, _fd: FormData): Promise<void> {
+async function runAction(id: number, endpoint: string): Promise<void> {
   const token = await getAuthToken();
   if (!token) redirect('/giris');
-  await apiFetch(`/api/v1/panel/reservations/${id}/confirm`, { method: 'POST', token });
+  try {
+    await apiFetch(`/api/v1/panel/reservations/${id}/${endpoint}`, { method: 'POST', token });
+  } catch {
+    // Hata durumunda sayfayı yenile
+  }
   revalidate(id);
+}
+
+export async function confirmReservationDetailAction(id: number, _fd: FormData): Promise<void> {
+  await runAction(id, 'confirm');
 }
 
 export async function cancelReservationDetailAction(id: number, _fd: FormData): Promise<void> {
-  const token = await getAuthToken();
-  if (!token) redirect('/giris');
-  await apiFetch(`/api/v1/panel/reservations/${id}/cancel`, { method: 'POST', token });
-  revalidate(id);
+  await runAction(id, 'cancel');
 }
 
 export async function noShowReservationDetailAction(id: number, _fd: FormData): Promise<void> {
-  const token = await getAuthToken();
-  if (!token) redirect('/giris');
-  await apiFetch(`/api/v1/panel/reservations/${id}/no-show`, { method: 'POST', token });
-  revalidate(id);
+  await runAction(id, 'no-show');
 }
 
 export async function completeReservationDetailAction(id: number, _fd: FormData): Promise<void> {
-  const token = await getAuthToken();
-  if (!token) redirect('/giris');
-  await apiFetch(`/api/v1/panel/reservations/${id}/complete`, { method: 'POST', token });
-  revalidate(id);
+  await runAction(id, 'complete');
 }

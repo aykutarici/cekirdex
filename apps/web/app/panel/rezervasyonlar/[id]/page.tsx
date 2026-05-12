@@ -12,13 +12,16 @@ import {
 type Reservation = {
   id: number;
   public_code: string;
-  guest_name: string;
-  guest_phone: string | null;
-  guest_email: string | null;
+  contact_name: string;
+  contact_phone: string | null;
+  contact_email: string | null;
   party_size: number;
-  reserved_at: string;
+  reserved_for: string;
   status: string;
+  status_label?: string;
   note: string | null;
+  admin_note: string | null;
+  table: string | null;
   created_at: string;
 };
 
@@ -44,11 +47,11 @@ export default async function ReservationDetailPage({
 
   let reservation: Reservation;
   try {
-    const data = await apiFetch<{ reservation: Reservation }>(
+    const data = await apiFetch<{ data: Reservation }>(
       `/api/v1/panel/reservations/${numId}`,
       { token },
     );
-    reservation = data.reservation;
+    reservation = data.data;
   } catch {
     notFound();
   }
@@ -71,7 +74,7 @@ export default async function ReservationDetailPage({
 
       <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">{reservation.guest_name}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{reservation.contact_name}</h1>
           <p className="mt-1 font-mono text-sm text-[var(--muted)]">{reservation.public_code}</p>
         </div>
         <span className={`rounded-full px-3 py-1 text-sm font-semibold ${cfg.cls}`}>
@@ -83,15 +86,15 @@ export default async function ReservationDetailPage({
         <dl className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
           <div>
             <dt className="text-xs font-medium text-[var(--muted)]">Misafir adı</dt>
-            <dd className="mt-1 font-semibold">{reservation.guest_name}</dd>
+            <dd className="mt-1 font-semibold">{reservation.contact_name}</dd>
           </div>
           <div>
             <dt className="text-xs font-medium text-[var(--muted)]">Telefon</dt>
-            <dd className="mt-1">{reservation.guest_phone ?? '—'}</dd>
+            <dd className="mt-1">{reservation.contact_phone ?? '—'}</dd>
           </div>
           <div>
             <dt className="text-xs font-medium text-[var(--muted)]">E-posta</dt>
-            <dd className="mt-1">{reservation.guest_email ?? '—'}</dd>
+            <dd className="mt-1">{reservation.contact_email ?? '—'}</dd>
           </div>
           <div>
             <dt className="text-xs font-medium text-[var(--muted)]">Kişi sayısı</dt>
@@ -100,7 +103,7 @@ export default async function ReservationDetailPage({
           <div>
             <dt className="text-xs font-medium text-[var(--muted)]">Rezervasyon tarihi</dt>
             <dd className="mt-1 font-semibold">
-              {new Date(reservation.reserved_at).toLocaleString('tr-TR', {
+              {new Date(reservation.reserved_for).toLocaleString('tr-TR', {
                 dateStyle: 'long',
                 timeStyle: 'short',
               })}

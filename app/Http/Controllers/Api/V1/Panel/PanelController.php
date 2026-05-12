@@ -83,12 +83,26 @@ class PanelController extends Controller
 
     public function reservations(Request $request): JsonResponse
     {
+        $reservations = CekirdexReservation::query()
+            ->where('cekirdex_restaurant_id', $this->restaurantId($request))
+            ->latest()
+            ->limit(50)
+            ->get();
+
         return response()->json([
-            'data' => CekirdexReservation::query()
-                ->where('cekirdex_restaurant_id', $this->restaurantId($request))
-                ->latest()
-                ->limit(50)
-                ->get(),
+            'data' => $reservations->map(fn ($r) => [
+                'id'            => $r->id,
+                'public_code'   => $r->public_code,
+                'contact_name'  => $r->contact_name,
+                'contact_phone' => $r->contact_phone,
+                'contact_email' => $r->contact_email,
+                'reserved_for'  => $r->reserved_for?->toIso8601String(),
+                'party_size'    => $r->party_size,
+                'status'        => $r->status,
+                'status_label'  => $r->status_label,
+                'note'          => $r->note,
+                'created_at'    => $r->created_at?->toIso8601String(),
+            ]),
         ]);
     }
 

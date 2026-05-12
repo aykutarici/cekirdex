@@ -12,12 +12,13 @@ import {
 type Reservation = {
   id: number;
   public_code: string;
-  guest_name: string;
-  guest_phone: string | null;
-  guest_email: string | null;
+  contact_name: string;
+  contact_phone: string | null;
+  contact_email: string | null;
   party_size: number;
-  reserved_at: string;
+  reserved_for: string;
   status: string;
+  status_label?: string;
   note: string | null;
   created_at: string;
 };
@@ -118,12 +119,12 @@ export default async function ReservationsPage({
                     <tr key={r.id} className="hover:bg-[var(--bg-soft)]">
                       <td className="px-4 py-3">
                         <Link href={`/panel/rezervasyonlar/${r.id}`} className="hover:underline">
-                          <p className="font-medium">{r.guest_name}</p>
-                          <p className="text-xs text-[var(--muted)]">{r.guest_phone ?? r.guest_email ?? '—'}</p>
+                          <p className="font-medium">{r.contact_name}</p>
+                          <p className="text-xs text-[var(--muted)]">{r.contact_phone ?? r.contact_email ?? '—'}</p>
                         </Link>
                       </td>
                       <td className="px-4 py-3 text-[var(--muted)]">
-                        {new Date(r.reserved_at).toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' })}
+                        {new Date(r.reserved_for).toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' })}
                       </td>
                       <td className="px-4 py-3">{r.party_size} kişi</td>
                       <td className="px-4 py-3">

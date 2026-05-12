@@ -5,6 +5,15 @@ import { apiFetch } from '@/lib/api';
 import { clearAuthToken, setAuthToken } from '@/lib/session';
 
 export async function logoutAction(): Promise<void> {
+  const { getAuthToken } = await import('@/lib/session');
+  const token = await getAuthToken();
+  if (token) {
+    try {
+      await apiFetch('/api/v1/auth/logout', { method: 'POST', token });
+    } catch {
+      // Backend token iptal edemese bile çıkış yap
+    }
+  }
   await clearAuthToken();
   redirect('/giris');
 }

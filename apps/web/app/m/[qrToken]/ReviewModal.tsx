@@ -6,8 +6,8 @@ import { addReviewAction } from './actions';
 type Review = {
   id: number;
   rating: number;
-  comment: string | null;
-  customer_name: string;
+  content: string | null;
+  user_name: string;
   created_at: string;
 };
 
@@ -50,8 +50,8 @@ export function ReviewModal({
 
   useEffect(() => {
     fetch(`/api/customer/${qrToken}/reviews/${productId}`)
-      .then((r) => (r.ok ? r.json() : { data: [] }))
-      .then((d) => setReviews(d.data ?? []))
+      .then((r) => (r.ok ? r.json() : { reviews: [] }))
+      .then((d) => setReviews(d.reviews ?? []))
       .catch(() => setReviews([]))
       .finally(() => setLoadingReviews(false));
   }, [qrToken, productId]);
@@ -79,10 +79,10 @@ export function ReviewModal({
             reviews.map((r) => (
               <div key={r.id} className="rounded-xl bg-[var(--bg-soft)] p-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold">{r.customer_name}</span>
+                  <span className="text-xs font-semibold">{r.user_name}</span>
                   <span className="text-xs text-amber-500">{'⭐'.repeat(r.rating)}</span>
                 </div>
-                {r.comment && <p className="mt-1 text-sm text-[var(--muted)]">{r.comment}</p>}
+                {r.content && <p className="mt-1 text-sm text-[var(--muted)]">{r.content}</p>}
                 <p className="mt-1 text-[10px] text-[var(--muted)]">
                   {new Date(r.created_at).toLocaleDateString('tr-TR')}
                 </p>

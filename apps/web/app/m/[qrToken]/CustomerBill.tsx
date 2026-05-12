@@ -10,7 +10,7 @@ type BillItem = {
   subtotal: number;
 };
 
-type BillData = {
+type BillPayload = {
   has_open_orders: boolean;
   items: BillItem[];
   subtotal: number;
@@ -20,8 +20,12 @@ type BillData = {
   remaining: number;
 };
 
+type BillData = {
+  data: BillPayload;
+};
+
 export function CustomerBill({ qrToken }: { qrToken: string }) {
-  const [bill, setBill] = useState<BillData | null>(null);
+  const [bill, setBill] = useState<BillPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [paymentRequested, setPaymentRequested] = useState(false);
 
@@ -30,7 +34,7 @@ export function CustomerBill({ qrToken }: { qrToken: string }) {
       const res = await fetch(`/api/customer/${qrToken}/bill`);
       if (!res.ok) return;
       const data: BillData = await res.json();
-      setBill(data);
+      setBill(data.data);
     } catch {
       // sessizce başarısız ol
     } finally {

@@ -6,7 +6,7 @@ import { respondCallAction, closeCallAction } from './actions';
 type Call = {
   id: number;
   table: string;
-  type: string;
+  call_type: string;
   type_label: string;
   status: string;
   created_at: string;
@@ -31,7 +31,7 @@ function timeAgo(dateStr: string): string {
 function CallCard({ call, onUpdate }: { call: Call; onUpdate: () => void }) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
-  const badgeCls = typeBadge[call.type] ?? typeBadge.other;
+  const badgeCls = typeBadge[call.call_type] ?? typeBadge.other;
   const isResponded = call.status === 'responded';
 
   function respond() {

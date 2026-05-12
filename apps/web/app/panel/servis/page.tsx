@@ -123,19 +123,13 @@ export default function ServisPage() {
 
   async function load() {
     try {
-      const [readyRes, pendingRes] = await Promise.all([
-        fetch('/api/panel/service'),
-        fetch('/api/panel/orders/pending'),
-      ]);
-      if (!readyRes.ok) throw new Error('Yüklenemedi');
-      const readyData: { data: ServiceOrder[] } = await readyRes.json();
-      setReadyOrders(readyData.data ?? []);
-
-      if (pendingRes.ok) {
-        const pendingData: { data: ServiceOrder[] } = await pendingRes.json();
-        setPendingOrders(pendingData.data ?? []);
-      }
-
+      const res = await fetch('/api/panel/service');
+      if (!res.ok) throw new Error('Yüklenemedi');
+      const data: { data: (ServiceOrder & { status: string })[] } = await res.json();
+      const all = data.data ?? [];
+      // Service feed returns new+ready together — split by status
+      setReadyOrders(all.filter((o) => o.status === 'ready'));
+      setPendingOrders(all.filter((o) => o.status !== 'ready'));
       setError(null);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Hata');

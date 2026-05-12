@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 
 type Reactions = {
-  likes: number;
-  favorites: number;
-  user_liked: boolean;
-  user_favorited: boolean;
+  like_count: number;
+  favorite_count: number;
+  liked: boolean;
+  favorited: boolean;
 };
 
 export function ProductActions({
@@ -41,8 +41,13 @@ export function ProductActions({
         body: JSON.stringify({ type: 'like' }),
       });
       if (res.ok) {
-        const updated: Reactions = await res.json();
-        setReactions(updated);
+        const updated = await res.json();
+        // Merge partial like response into reactions state
+        setReactions((prev) => prev ? {
+          ...prev,
+          like_count: updated.like_count ?? prev.like_count,
+          liked: updated.liked ?? prev.liked,
+        } : prev);
       }
     } finally {
       setLiking(false);
@@ -59,8 +64,12 @@ export function ProductActions({
         body: JSON.stringify({ type: 'favorite' }),
       });
       if (res.ok) {
-        const updated: Reactions = await res.json();
-        setReactions(updated);
+        const updated = await res.json();
+        setReactions((prev) => prev ? {
+          ...prev,
+          favorite_count: updated.favorite_count ?? prev.favorite_count,
+          favorited: updated.favorited ?? prev.favorited,
+        } : prev);
       }
     } finally {
       setFavoriting(false);
@@ -75,13 +84,13 @@ export function ProductActions({
         title={isLoggedIn ? 'Beğen' : 'Beğenmek için giriş yapın'}
         className={[
           'flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition',
-          reactions?.user_liked
+          reactions?.liked
             ? 'bg-blue-100 text-blue-700'
             : 'bg-[var(--bg-soft)] text-[var(--muted)] hover:bg-blue-50',
           !isLoggedIn ? 'cursor-default opacity-70' : 'cursor-pointer',
         ].join(' ')}
       >
-        👍 {reactions?.likes ?? 0}
+        👍 {reactions?.like_count ?? 0}
       </button>
 
       <button
@@ -90,13 +99,13 @@ export function ProductActions({
         title={isLoggedIn ? 'Favorile' : 'Favorilere eklemek için giriş yapın'}
         className={[
           'flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition',
-          reactions?.user_favorited
+          reactions?.favorited
             ? 'bg-pink-100 text-pink-700'
             : 'bg-[var(--bg-soft)] text-[var(--muted)] hover:bg-pink-50',
           !isLoggedIn ? 'cursor-default opacity-70' : 'cursor-pointer',
         ].join(' ')}
       >
-        ❤️ {reactions?.favorites ?? 0}
+        ❤️ {reactions?.favorite_count ?? 0}
       </button>
 
       <button
