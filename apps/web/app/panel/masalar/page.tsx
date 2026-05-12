@@ -3,6 +3,7 @@ import { apiFetch } from '@/lib/api';
 import { getAuthToken } from '@/lib/session';
 import { regenerateQrAction, deleteTableAction } from './actions';
 import NewTableForm from './NewTableForm';
+import { DeleteButton } from '@/components/DeleteButton';
 
 type Table = {
   id: number;
@@ -96,20 +97,12 @@ export default async function TablesPage() {
                       ↺
                     </button>
                   </form>
-                  <form action={deleteTable}>
-                    <button
-                      type="submit"
-                      title="Masayı sil"
-                      className="btn text-xs text-red-600"
-                      onClick={(e) => {
-                        if (!confirm(`"${table.name}" masasını silmek istediğinize emin misiniz?`)) {
-                          e.preventDefault();
-                        }
-                      }}
-                    >
-                      Sil
-                    </button>
-                  </form>
+                  <DeleteButton
+                    action={deleteTable}
+                    confirmMessage={`"${table.name}" masasını silmek istediğinize emin misiniz?`}
+                    label="Sil"
+                    className="btn text-xs text-red-600"
+                  />
                 </div>
               </div>
             );

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
 import { getAuthToken } from '@/lib/session';
 import { deleteCategoryAction, deleteProductAction, toggleStockAction, toggleActiveAction } from './actions';
+import { DeleteButton } from '@/components/DeleteButton';
 
 type Product = {
   id: number;
@@ -74,19 +75,10 @@ export default async function MenuPage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-xs text-[var(--muted)]">{cat.products.length} ürün</span>
-                    <form action={deleteCat}>
-                      <button
-                        type="submit"
-                        className="text-xs text-red-500 hover:text-red-700"
-                        onClick={(e) => {
-                          if (!confirm(`"${cat.name}" kategorisini silmek istediğinize emin misiniz?`)) {
-                            e.preventDefault();
-                          }
-                        }}
-                      >
-                        Sil
-                      </button>
-                    </form>
+                    <DeleteButton
+                      action={deleteCat}
+                      confirmMessage={`"${cat.name}" kategorisini silmek istediğinize emin misiniz?`}
+                    />
                   </div>
                 </div>
 
@@ -146,20 +138,11 @@ export default async function MenuPage() {
                                 {p.is_active ? 'Pasif' : 'Aktif'}
                               </button>
                             </form>
-                            <form action={deleteProduct}>
-                              <button
-                                type="submit"
-                                title="Ürünü sil"
-                                className="rounded-lg border border-red-200 px-2 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50"
-                                onClick={(e) => {
-                                  if (!confirm(`"${p.name}" ürününü silmek istediğinize emin misiniz?`)) {
-                                    e.preventDefault();
-                                  }
-                                }}
-                              >
-                                Sil
-                              </button>
-                            </form>
+                            <DeleteButton
+                              action={deleteProduct}
+                              confirmMessage={`"${p.name}" ürününü silmek istediğinize emin misiniz?`}
+                              className="rounded-lg border border-red-200 px-2 py-1 text-xs font-medium text-red-600 transition hover:bg-red-50"
+                            />
                           </div>
                         </div>
                       );
