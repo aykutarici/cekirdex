@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { apiFetch } from '@/lib/api';
 import { getAuthToken } from '@/lib/session';
@@ -116,8 +117,10 @@ export default async function ReservationsPage({
                   return (
                     <tr key={r.id} className="hover:bg-[var(--bg-soft)]">
                       <td className="px-4 py-3">
-                        <p className="font-medium">{r.guest_name}</p>
-                        <p className="text-xs text-[var(--muted)]">{r.guest_phone ?? r.guest_email ?? '—'}</p>
+                        <Link href={`/panel/rezervasyonlar/${r.id}`} className="hover:underline">
+                          <p className="font-medium">{r.guest_name}</p>
+                          <p className="text-xs text-[var(--muted)]">{r.guest_phone ?? r.guest_email ?? '—'}</p>
+                        </Link>
                       </td>
                       <td className="px-4 py-3 text-[var(--muted)]">
                         {new Date(r.reserved_at).toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' })}

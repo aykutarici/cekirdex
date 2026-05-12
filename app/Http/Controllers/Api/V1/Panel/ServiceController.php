@@ -39,18 +39,35 @@ class ServiceController extends Controller
         return response()->json(['message' => 'Sipariş servis edildi olarak işaretlendi.']);
     }
 
+    public function confirm(Request $request, int $orderId): JsonResponse
+    {
+        $order = CekirdexOrder::query()
+            ->where('cekirdex_restaurant_id', $this->restaurantId($request))
+            ->findOrFail($orderId);
+
+        if ($order->status !== 'new') {
+            return response()->json(['message' => 'Bu sipariş onaylanamaz; yeni sipariş değil.'], 422);
+        }
+
+        $order->update(['status' => 'confirmed']);
+
+        return response()->json(['message' => 'Sipariş onaylandı.']);
+    }
+
     private function readyOrders(int $restaurantId): array
     {
         return CekirdexOrder::query()
             ->with('table', 'items')
             ->where('cekirdex_restaurant_id', $restaurantId)
-            ->where('status', 'ready')
+            ->whereIn('status', ['new', 'ready'])
             ->where('order_type', CekirdexOrder::TYPE_DINE_IN)
-            ->orderBy('ready_at')
+            ->orderBy('created_at')
             ->get()
             ->map(fn (CekirdexOrder $order) => [
                 'id'           => $order->id,
                 'order_number' => $order->order_number,
+                'status'       => $order->status,
+                'status_label' => $order->status_label,
                 'table'        => $order->table?->name,
                 'ready_at'     => $order->ready_at?->toIso8601String(),
                 'created_at'   => $order->created_at?->toIso8601String(),

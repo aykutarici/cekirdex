@@ -146,10 +146,10 @@ class BillApiTest extends TestCase
             ->getJson("/api/v1/panel/bills/{$this->table->id}");
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['table', 'summary'])
-            ->assertJsonPath('table.id', $this->table->id);
+            ->assertJsonStructure(['data' => ['table_id', 'total', 'has_open_orders']])
+            ->assertJsonPath('data.table_id', $this->table->id);
 
-        $this->assertEquals(100, $response->json('summary.total'));
+        $this->assertEquals(100, $response->json('data.total'));
     }
 
     // ──────────────────────────────────────────────────────────────

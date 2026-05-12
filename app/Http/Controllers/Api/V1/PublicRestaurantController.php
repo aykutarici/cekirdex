@@ -9,6 +9,7 @@ use App\Cekirdex\Models\CekirdexProduct;
 use App\Cekirdex\Models\CekirdexReservation;
 use App\Cekirdex\Models\CekirdexRestaurant;
 use App\Cekirdex\Models\CekirdexTable;
+use App\Cekirdex\Services\BillService;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -298,6 +299,194 @@ class PublicRestaurantController extends Controller
             'message' => 'Rezervasyon talebiniz alındı.',
             'reservation' => $this->reservationPayload($reservation->load('restaurant')),
         ], 201);
+    }
+
+    public function storeTakeawayOrder(Request $request, string $slug): JsonResponse
+    {
+        $restaurant = CekirdexRestaurant::query()
+            ->where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        if (!$restaurant->accepts_takeaway && !$restaurant->accepts_delivery) {
+            return response()->json(['message' => 'Bu restoran gel-al veya teslimat siparişi kabul etmiyor.'], 422);
+        }
+
+        $request->validate([
+            'order_type'       => ['required', Rule::in([CekirdexOrder::TYPE_TAKEAWAY, CekirdexOrder::TYPE_DELIVERY])],
+            'items'            => ['required', 'array', 'min:1'],
+            'items.*.product_id' => ['required', 'integer'],
+            'items.*.variant_id' => ['nullable', 'integer'],
+            'items.*.quantity'   => ['required', 'integer', 'min:1'],
+            'items.*.note'       => ['nullable', 'string', 'max:500'],
+            'contact_name'     => ['required', 'string', 'max:120'],
+            'contact_phone'    => ['required', 'string', 'max:32'],
+            'contact_email'    => ['nullable', 'email', 'max:160'],
+            'delivery_address' => [
+                Rule::requiredIf($request->input('order_type') === CekirdexOrder::TYPE_DELIVERY),
+                'nullable', 'string', 'max:500',
+            ],
+            'note' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        if ($request->input('order_type') === CekirdexOrder::TYPE_TAKEAWAY && !$restaurant->accepts_takeaway) {
+            return response()->json(['message' => 'Bu restoran gel-al siparişi kabul etmiyor.'], 422);
+        }
+
+        if ($request->input('order_type') === CekirdexOrder::TYPE_DELIVERY && !$restaurant->accepts_delivery) {
+            return response()->json(['message' => 'Bu restoran teslimat siparişi kabul etmiyor.'], 422);
+        }
+
+        $order = DB::transaction(function () use ($request, $restaurant) {
+            $items    = collect($request->input('items'));
+            $products = CekirdexProduct::query()
+                ->with('variants')
+                ->where('cekirdex_restaurant_id', $restaurant->id)
+                ->whereIn('id', $items->pluck('product_id')->all())
+                ->lockForUpdate()
+                ->get()
+                ->keyBy('id');
+
+            $subtotal = 0.0;
+            $resolved = [];
+
+            foreach ($items as $line) {
+                /** @var CekirdexProduct|null $product */
+                $product = $products->get((int) $line['product_id']);
+                if (!$product || !$product->isAvailable()) {
+                    throw ValidationException::withMessages([
+                        'items' => 'Sepette siparişe uygun olmayan ürün var.',
+                    ]);
+                }
+
+                $quantity  = (int) $line['quantity'];
+                $variantId = isset($line['variant_id']) ? (int) $line['variant_id'] : null;
+                $price     = $product->resolveOrderLine($variantId);
+
+                if (!($price['ok'] ?? false)) {
+                    throw ValidationException::withMessages([
+                        'items' => $price['message'] ?? 'Ürün seçeneği geçersiz.',
+                    ]);
+                }
+
+                $lineSubtotal = round(((float) $price['unit_price']) * $quantity, 2);
+                $subtotal    += $lineSubtotal;
+
+                $resolved[] = [
+                    'product'       => $product,
+                    'variant'       => $price['variant'] ?? null,
+                    'variant_label' => $price['variant_label'] ?? null,
+                    'unit_price'    => (float) $price['unit_price'],
+                    'quantity'      => $quantity,
+                    'note'          => $line['note'] ?? null,
+                    'subtotal'      => $lineSubtotal,
+                ];
+            }
+
+            $tax     = round($subtotal * (((float) $restaurant->tax_rate) / 100), 2);
+            $service = round($subtotal * (((float) $restaurant->service_charge_rate) / 100), 2);
+            $total   = round($subtotal + $tax + $service, 2);
+
+            $order = CekirdexOrder::create([
+                'cekirdex_restaurant_id' => $restaurant->id,
+                'order_number'           => CekirdexOrder::newOrderNumber(),
+                'public_code'            => CekirdexOrder::newPublicCode(),
+                'order_type'             => $request->input('order_type'),
+                'contact_name'           => $request->input('contact_name'),
+                'contact_phone'          => $request->input('contact_phone'),
+                'contact_email'          => $request->input('contact_email'),
+                'delivery_address'       => $request->input('delivery_address'),
+                'subtotal'               => $subtotal,
+                'tax'                    => $tax,
+                'service_charge'         => $service,
+                'discount'               => 0,
+                'total'                  => $total,
+                'status'                 => 'new',
+                'payment_status'         => 'pending',
+                'note'                   => $request->input('note'),
+                'ip_address'             => $request->ip(),
+                'user_agent'             => substr((string) $request->userAgent(), 0, 500),
+            ]);
+
+            foreach ($resolved as $line) {
+                /** @var CekirdexProduct $product */
+                $product = $line['product'];
+                CekirdexOrderItem::create([
+                    'cekirdex_order_id'          => $order->id,
+                    'cekirdex_product_id'         => $product->id,
+                    'cekirdex_product_variant_id' => $line['variant']?->id,
+                    'variant_label'              => $line['variant_label'],
+                    'name'                       => $product->name,
+                    'price'                      => $line['unit_price'],
+                    'quantity'                   => $line['quantity'],
+                    'note'                       => $line['note'],
+                    'subtotal'                   => $line['subtotal'],
+                    'status'                     => 'pending',
+                ]);
+            }
+
+            return $order->load('items');
+        });
+
+        return response()->json([
+            'message' => 'Sipariş alındı.',
+            'order'   => [
+                'id'           => $order->id,
+                'public_code'  => $order->public_code,
+                'order_number' => $order->order_number,
+                'status'       => $order->status,
+                'total'        => (float) $order->total,
+            ],
+        ], 201);
+    }
+
+    public function orderFeed(string $publicCode): JsonResponse
+    {
+        $order = CekirdexOrder::query()
+            ->with('items')
+            ->where('public_code', strtoupper($publicCode))
+            ->firstOrFail();
+
+        return response()->json([
+            'status'       => $order->status,
+            'status_label' => $order->status_label,
+            'items'        => $order->items->map(fn ($item) => [
+                'name'     => $item->name,
+                'quantity' => $item->quantity,
+                'note'     => $item->note,
+            ]),
+            'total'      => (float) $order->total,
+            'updated_at' => $order->updated_at?->toIso8601String(),
+        ]);
+    }
+
+    public function customerBill(Request $request, string $qrToken, BillService $billService): JsonResponse
+    {
+        $table = CekirdexTable::query()
+            ->with('activeOrders')
+            ->where('qr_token', $qrToken)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        $summary = $billService->summary($table);
+
+        return response()->json([
+            'data' => [
+                'table_id'        => $table->id,
+                'table_name'      => $table->name,
+                'subtotal'        => $summary['subtotal'],
+                'tax'             => $summary['tax'],
+                'service_charge'  => $summary['service_charge'],
+                'total'           => $summary['total'],
+                'paid'            => $summary['paid'],
+                'remaining'       => $summary['remaining'],
+                'currency'        => $summary['currency'],
+                'orders'          => $summary['orders'],
+                'items'           => $summary['items'],
+                'payments'        => $summary['payments'],
+                'has_open_orders' => $summary['has_open_orders'],
+            ],
+        ]);
     }
 
     public function orderTrack(string $publicCode): JsonResponse

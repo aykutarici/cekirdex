@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\ContactController;
+use App\Http\Controllers\Api\V1\CustomerAuthController;
+use App\Http\Controllers\Api\V1\CustomerReactionController;
+use App\Http\Controllers\Api\V1\CustomerReviewController;
 use App\Http\Controllers\Api\V1\HealthController;
 use App\Http\Controllers\Api\V1\Panel\BillController;
 use App\Http\Controllers\Api\V1\Panel\CallController;
@@ -38,10 +41,36 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('/restaurants/{slug}', [PublicRestaurantController::class, 'show'])->name('restaurants.show');
     Route::get('/restaurants/{slug}/availability', [PublicRestaurantController::class, 'availability'])->name('restaurants.availability');
     Route::post('/restaurants/{slug}/reservations', [PublicRestaurantController::class, 'storeReservation'])->name('restaurants.reservations.store');
+    Route::post('/restaurants/{slug}/order', [PublicRestaurantController::class, 'storeTakeawayOrder'])->name('restaurants.order.store');
+
     Route::get('/tables/{qrToken}/menu', [PublicRestaurantController::class, 'menu'])->name('tables.menu');
     Route::post('/tables/{qrToken}/calls', [PublicRestaurantController::class, 'storeCall'])->name('tables.calls.store');
     Route::post('/tables/{qrToken}/orders', [PublicRestaurantController::class, 'storeOrder'])->name('tables.orders.store');
+    Route::get('/tables/{qrToken}/bill', [PublicRestaurantController::class, 'customerBill'])->name('tables.bill');
+
+    Route::prefix('tables/{qrToken}')->group(function () {
+        Route::post('/auth/register', [CustomerAuthController::class, 'register'])->name('tables.auth.register');
+        Route::post('/auth/login', [CustomerAuthController::class, 'login'])->name('tables.auth.login');
+        Route::middleware('api.actor')->group(function () {
+            Route::post('/auth/logout', [CustomerAuthController::class, 'logout'])->name('tables.auth.logout');
+            Route::get('/auth/me', [CustomerAuthController::class, 'me'])->name('tables.auth.me');
+        });
+
+        Route::get('/products/{productId}/reactions', [CustomerReactionController::class, 'show'])->name('tables.products.reactions');
+        Route::middleware('api.actor')->group(function () {
+            Route::post('/products/{productId}/like', [CustomerReactionController::class, 'toggleLike'])->name('tables.products.like');
+            Route::post('/products/{productId}/favorite', [CustomerReactionController::class, 'toggleFavorite'])->name('tables.products.favorite');
+        });
+
+        Route::get('/products/{productId}/reviews', [CustomerReviewController::class, 'index'])->name('tables.products.reviews.index');
+        Route::middleware('api.actor')->group(function () {
+            Route::post('/products/{productId}/reviews', [CustomerReviewController::class, 'store'])->name('tables.products.reviews.store');
+            Route::delete('/products/{productId}/reviews/{reviewId}', [CustomerReviewController::class, 'destroy'])->name('tables.products.reviews.destroy');
+        });
+    });
+
     Route::get('/orders/{publicCode}', [PublicRestaurantController::class, 'orderTrack'])->name('orders.track');
+    Route::get('/orders/{publicCode}/feed', [PublicRestaurantController::class, 'orderFeed'])->name('orders.feed');
     Route::get('/reservations/{publicCode}', [PublicRestaurantController::class, 'reservationTrack'])->name('reservations.track');
     Route::post('/reservations/{publicCode}/cancel', [PublicRestaurantController::class, 'cancelReservation'])->name('reservations.cancel');
 
@@ -133,6 +162,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::get('/service', [ServiceController::class, 'index'])->name('service.index');
             Route::get('/service/feed', [ServiceController::class, 'feed'])->name('service.feed');
             Route::post('/service/{orderId}/serve', [ServiceController::class, 'serve'])->name('service.serve');
+            Route::post('/service/{orderId}/confirm', [ServiceController::class, 'confirm'])->name('service.confirm');
         });
 
         // ── Çağrılar ─────────────────────────────────────────────────────────

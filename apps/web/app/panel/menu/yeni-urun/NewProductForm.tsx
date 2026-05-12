@@ -1,13 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import { createProductAction } from '../actions';
 
 type Category = { id: number; name: string };
+type StockImage = { slug: string; url: string; label?: string };
 
-export default function NewProductForm({ categories }: { categories: Category[] }) {
+export default function NewProductForm({
+  categories,
+  stockImages,
+}: {
+  categories: Category[];
+  stockImages: StockImage[];
+}) {
   const [error, formAction, pending] = useActionState(createProductAction, null);
+  const [selectedImageSlug, setSelectedImageSlug] = useState<string>('');
 
   return (
     <>
@@ -72,9 +80,67 @@ export default function NewProductForm({ categories }: { categories: Category[] 
           </div>
 
           <div className="flex items-center gap-2">
-            <input type="checkbox" id="is_active" name="is_active" defaultChecked className="h-4 w-4 rounded" />
-            <label htmlFor="is_active" className="text-sm font-medium">Aktif olarak yayınla</label>
+            <input
+              type="checkbox"
+              id="is_active"
+              name="is_active"
+              defaultChecked
+              className="h-4 w-4 rounded"
+            />
+            <label htmlFor="is_active" className="text-sm font-medium">
+              Aktif olarak yayınla
+            </label>
           </div>
+
+          {/* Stok görsel seçici */}
+          {stockImages.length > 0 && (
+            <div>
+              <label className="mb-2 block text-sm font-medium">
+                Stok görsel seç{' '}
+                <span className="font-normal text-[var(--muted)]">(opsiyonel)</span>
+              </label>
+              <input type="hidden" name="image_slug" value={selectedImageSlug} />
+              <div className="grid grid-cols-4 gap-2 sm:grid-cols-5">
+                {/* Görsel seçimi kaldır butonu */}
+                {selectedImageSlug && (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedImageSlug('')}
+                    className="col-span-full mb-1 rounded-lg border border-dashed border-[var(--border)] py-1 text-xs text-[var(--muted)] hover:bg-[var(--bg-soft)]"
+                  >
+                    ✕ Seçimi kaldır
+                  </button>
+                )}
+                {stockImages.map((img) => (
+                  <button
+                    key={img.slug}
+                    type="button"
+                    onClick={() => setSelectedImageSlug(img.slug === selectedImageSlug ? '' : img.slug)}
+                    className={[
+                      'overflow-hidden rounded-xl border-2 transition',
+                      img.slug === selectedImageSlug
+                        ? 'border-[var(--primary)] ring-2 ring-[var(--primary)]/30'
+                        : 'border-[var(--border)] hover:border-[var(--primary)]/40',
+                    ].join(' ')}
+                    title={img.label ?? img.slug}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={img.url}
+                      alt={img.label ?? img.slug}
+                      className="aspect-square w-full object-cover"
+                      loading="lazy"
+                    />
+                  </button>
+                ))}
+              </div>
+              {selectedImageSlug && (
+                <p className="mt-1 text-xs text-[var(--muted)]">
+                  Seçili: <span className="font-medium">{selectedImageSlug}</span>
+                </p>
+              )}
+            </div>
+          )}
 
           <div className="flex gap-3 pt-2">
             <Link href="/panel/menu" className="btn btn-ghost flex-1 text-sm">
